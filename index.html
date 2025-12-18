@@ -206,6 +206,8 @@
       align-items: center;
       gap: 4px;
       backdrop-filter: blur(16px) saturate(140%);
+      transition: background 0.15s ease-out, border-color 0.15s ease-out,
+        color 0.15s ease-out, transform 0.12s ease-out, box-shadow 0.12s ease-out;
     }
 
     .filter-chip span.dot {
@@ -218,6 +220,8 @@
       background: var(--tg-theme-button-color, #ffffff);
       color: var(--tg-theme-button-text-color, #000000);
       border-color: transparent;
+      transform: translateY(-0.5px);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
     }
 
     .catalog {
@@ -246,7 +250,7 @@
       flex: 0 0 64px;
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 4px;
       align-items: center;
     }
 
@@ -330,6 +334,43 @@
       backdrop-filter: blur(14px) saturate(140%);
     }
 
+    /* Рейтинг на главной */
+
+    .product-rating {
+      margin-top: 2px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 10px;
+      opacity: 0.9;
+    }
+
+    .rating-stars {
+      position: relative;
+      display: inline-block;
+      font-size: 10px;
+      line-height: 1;
+      color: rgba(255, 255, 255, 0.2);
+    }
+
+    .rating-stars::before {
+      content: "★★★★★";
+      position: absolute;
+      inset: 0;
+      width: var(--rating-percent, 100%);
+      overflow: hidden;
+      color: #ffd369;
+      white-space: nowrap;
+    }
+
+    .rating-stars span.base {
+      visibility: hidden;
+    }
+
+    .rating-value {
+      opacity: 0.9;
+    }
+
     .product-main {
       flex: 1;
       display: flex;
@@ -399,12 +440,25 @@
       align-items: center;
       gap: 4px;
       backdrop-filter: blur(12px) saturate(140%);
+      transition:
+        background 0.16s ease-out,
+        border-color 0.16s ease-out,
+        color 0.16s ease-out,
+        transform 0.12s ease-out,
+        box-shadow 0.12s ease-out;
+    }
+
+    .volume-chip:active {
+      transform: scale(0.94);
+      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
     }
 
     .volume-chip.active {
       background: var(--tg-theme-button-color, #ffffff);
       color: var(--tg-theme-button-text-color, #000000);
       border-color: transparent;
+      transform: scale(1.03);
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
     }
 
     .product-bottom {
@@ -445,7 +499,10 @@
       gap: 6px;
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
       outline: none;
-      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+      transition:
+        transform 0.16s ease-out,
+        box-shadow 0.16s ease-out,
+        background 0.16s ease-out;
       white-space: nowrap;
     }
 
@@ -457,6 +514,22 @@
     .add-to-cart span.plus {
       font-size: 16px;
       line-height: 1;
+    }
+
+    @keyframes button-bounce {
+      0% {
+        transform: translateY(0) scale(1);
+      }
+      30% {
+        transform: translateY(-1px) scale(1.04);
+      }
+      100% {
+        transform: translateY(0) scale(1);
+      }
+    }
+
+    .add-to-cart.animate {
+      animation: button-bounce 0.22s cubic-bezier(0.22, 0.7, 0.35, 1);
     }
 
     .cart-panel {
@@ -778,7 +851,7 @@
 
     .detail-meta {
       font-size: 11px;
-      opacity: 0.8;
+      opacity: 0.85;
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
@@ -956,6 +1029,7 @@
         images: [
           "https://i.pinimg.com/736x/8e/98/d2/8e98d27ca351b289ec55fee9c4464afc.jpg"
         ],
+        rating: 4.98,
         shortCode: "BR540"
       },
       {
@@ -978,6 +1052,7 @@
         images: [
           "https://i.pinimg.com/1200x/5a/00/f1/5a00f1894fea82bca73310361dd85803.jpg"
         ],
+        rating: 4.87,
         shortCode: "M01"
       },
       {
@@ -1000,6 +1075,7 @@
         images: [
           "https://i.pinimg.com/1200x/64/47/b4/6447b48b83183d20df7006d3b2fc1cf0.jpg"
         ],
+        rating: 4.92,
         shortCode: "OW"
       },
 
@@ -1024,6 +1100,7 @@
         images: [
           "https://i.pinimg.com/1200x/cc/7a/e2/cc7ae220514619cc890f7024c9c4a912.jpg"
         ],
+        rating: 4.95,
         shortCode: "CM"
       },
       {
@@ -1046,6 +1123,7 @@
         images: [
           "https://i.pinimg.com/1200x/7b/ef/75/7bef75282c9bcc0ef9c2c3f0acafe60d.jpg"
         ],
+        rating: 4.82,
         shortCode: "BO"
       },
       {
@@ -1068,6 +1146,7 @@
         images: [
           "https://i.pinimg.com/1200x/b4/33/45/b43345a4ab7db03eba9d50e6c0bd46dc.jpg"
         ],
+        rating: 4.88,
         shortCode: "LVEB"
       },
 
@@ -1089,6 +1168,7 @@
           { ml: 60, label: "60 мл", price: 9900 },
           { ml: 100, label: "100 мл", price: 13900 }
         ],
+        rating: 4.9,
         shortCode: "SAUV"
       },
       {
@@ -1108,6 +1188,7 @@
           { ml: 50, label: "50 мл", price: 12400 },
           { ml: 100, label: "100 мл", price: 16900 }
         ],
+        rating: 4.93,
         shortCode: "BDC"
       },
       {
@@ -1127,6 +1208,7 @@
           { ml: 50, label: "50 мл", price: 8900 },
           { ml: 100, label: "100 мл", price: 11900 }
         ],
+        rating: 4.76,
         shortCode: "ADG"
       }
     ];
@@ -1211,6 +1293,14 @@
       });
     }
 
+    function animateButton(btn) {
+      if (!btn) return;
+      btn.classList.remove("animate");
+      // перезапуск анимации
+      void btn.offsetWidth;
+      btn.classList.add("animate");
+    }
+
     function renderCatalog() {
       const items = applyFilters(perfumes);
       if (!items.length) {
@@ -1240,6 +1330,8 @@
             )
             .join("");
 
+          const ratingPercent = ((p.rating || 5) / 5) * 100;
+
           return `
           <article class="product-card" data-id="${p.id}">
             <div class="product-media">
@@ -1258,6 +1350,12 @@
               `
               }
               <div class="gender-pill">${genderLabel(p.gender)}</div>
+              <div class="product-rating">
+                <div class="rating-stars" style="--rating-percent:${ratingPercent}%">
+                  <span class="base">★★★★★</span>
+                </div>
+                <span class="rating-value">${(p.rating || 5).toFixed(2)}</span>
+              </div>
             </div>
             <div class="product-main">
               <div class="product-brand">${p.brand}</div>
@@ -1492,6 +1590,10 @@
         sliderHtml = `<div class="detail-no-images">Фотографии этого аромата появятся позже.</div>`;
       }
 
+      const ratingText = product.rating
+        ? `<span>• ★ ${product.rating.toFixed(2)}/5</span>`
+        : "";
+
       detailBody.innerHTML = `
         ${sliderHtml}
         <div class="detail-text">
@@ -1501,6 +1603,7 @@
             <span>${product.intensity}</span>
             ${product.family ? `<span>• ${product.family}</span>` : ""}
             <span>• ${genderLabel(product.gender)}</span>
+            ${ratingText}
           </div>
           <div class="detail-section-title">Ноты аромата</div>
           <div class="detail-notes">${product.notes.join(" · ")}</div>
@@ -1639,6 +1742,7 @@
         const price = Number(activeVolume.dataset.price);
 
         addToCart(id, volumeMl, volumeLabel, price);
+        animateButton(addBtn);
         return;
       }
 
@@ -1709,6 +1813,7 @@
         const price = Number(activeVolume.dataset.price);
 
         addToCart(id, volumeMl, volumeLabel, price);
+        animateButton(addDetailBtn);
         return;
       }
 
@@ -1732,5 +1837,7 @@
     renderCatalog();
     updateCart();
   </script>
+</body>
+</html>
 </body>
 </html>
