@@ -24,7 +24,11 @@
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Roboto", sans-serif;
-      background: var(--tg-theme-bg-color, #050509);
+      /* Фон: фото + затемняющий градиент для читабельности */
+      background:
+        linear-gradient(180deg, rgba(5, 5, 9, 0.88), rgba(5, 5, 9, 0.96)),
+        url("https://i.pinimg.com/1200x/d4/79/28/d47928a5af26d92165c0b6e661d792db.jpg")
+          center / cover no-repeat fixed;
       color: var(--tg-theme-text-color, #ffffff);
     }
 
@@ -129,10 +133,11 @@
       margin-bottom: 12px;
       padding: 8px 12px;
       border-radius: 12px;
-      background: rgba(255, 255, 255, 0.06);
+      background: rgba(5, 5, 12, 0.7);
       border: 1px solid rgba(255, 255, 255, 0.18);
       font-size: 12px;
       line-height: 1.4;
+      backdrop-filter: blur(18px);
     }
 
     .delivery-banner span {
@@ -149,11 +154,12 @@
       border: 1px solid rgba(255, 255, 255, 0.12);
       padding: 10px 12px;
       padding-left: 34px;
-      background: rgba(255, 255, 255, 0.04);
+      background: rgba(5, 5, 12, 0.7);
       color: inherit;
       font-size: 14px;
       outline: none;
       position: relative;
+      backdrop-filter: blur(18px);
     }
 
     .search-wrapper {
@@ -189,7 +195,7 @@
       border-radius: 999px;
       border: 1px solid rgba(255, 255, 255, 0.16);
       padding: 6px 10px;
-      background: rgba(255, 255, 255, 0.02);
+      background: rgba(5, 5, 12, 0.7);
       color: inherit;
       font-size: 12px;
       white-space: nowrap;
@@ -198,6 +204,7 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      backdrop-filter: blur(14px);
     }
 
     .filter-chip span.dot {
@@ -226,13 +233,13 @@
       border-radius: var(--radius-lg);
       background: radial-gradient(
           circle at 0 0,
-          rgba(255, 255, 255, 0.08),
+          rgba(255, 255, 255, 0.09),
           transparent 50%
         ),
-        rgba(15, 15, 30, 0.9);
-      border: 1px solid rgba(255, 255, 255, 0.08);
+        rgba(10, 10, 20, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.12);
       box-shadow: var(--shadow-soft);
-      backdrop-filter: blur(18px);
+      backdrop-filter: blur(22px);
       cursor: pointer;
     }
 
@@ -243,6 +250,26 @@
       gap: 8px;
       align-items: center;
     }
+
+    /* Превью-фото на главной */
+
+    .product-thumb {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      background: rgba(10, 10, 20, 0.95);
+    }
+
+    .product-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Абстрактный флакон — запасной вариант */
 
     .product-bottle {
       width: 64px;
@@ -786,6 +813,10 @@
       margin-bottom: 4px;
     }
 
+    .detail-add-to-cart {
+      margin-top: 8px;
+    }
+
     .toast {
       position: fixed;
       left: 50%;
@@ -899,7 +930,6 @@
       tg.expand();
     }
 
-    // ВАЖНО: цены примерные, перед запуском обновите их по духи.рф
     const perfumes = [
       // === UNISEX ===
       {
@@ -1055,7 +1085,6 @@
           { ml: 60, label: "60 мл", price: 9900 },
           { ml: 100, label: "100 мл", price: 13900 }
         ],
-        // images будут добавлены позже
         shortCode: "SAUV"
       },
       {
@@ -1075,7 +1104,6 @@
           { ml: 50, label: "50 мл", price: 12400 },
           { ml: 100, label: "100 мл", price: 16900 }
         ],
-        // images будут добавлены позже
         shortCode: "BDC"
       },
       {
@@ -1095,7 +1123,6 @@
           { ml: 50, label: "50 мл", price: 8900 },
           { ml: 100, label: "100 мл", price: 11900 }
         ],
-        // images будут добавлены позже
         shortCode: "ADG"
       }
     ];
@@ -1116,7 +1143,6 @@
     const checkoutButton = document.getElementById("checkoutButton");
     const toastEl = document.getElementById("toast");
 
-    // Деталька / слайдер
     const detailPanel = document.getElementById("detailPanel");
     const detailBody = document.getElementById("detailBody");
     const detailBack = document.getElementById("detailBack");
@@ -1208,10 +1234,20 @@
           return `
           <article class="product-card" data-id="${p.id}">
             <div class="product-media">
-              <div class="product-bottle" style="${bottleColorStyle(p.gender)}">
-                <div class="bottle-cap"></div>
-                <div class="bottle-label">${p.shortCode}</div>
-              </div>
+              ${
+                p.images && p.images.length
+                  ? `
+                <div class="product-thumb">
+                  <img src="${p.images[0]}" alt="${p.brand} ${p.name}" loading="lazy" />
+                </div>
+              `
+                  : `
+                <div class="product-bottle" style="${bottleColorStyle(p.gender)}">
+                  <div class="bottle-cap"></div>
+                  <div class="bottle-label">${p.shortCode}</div>
+                </div>
+              `
+              }
               <div class="gender-pill">${genderLabel(p.gender)}</div>
             </div>
             <div class="product-main">
@@ -1471,6 +1507,29 @@
               )
               .join("")}
           </ul>
+          <div class="detail-section-title">Выбор объема и заказ</div>
+          <div class="volume-chips detail-volume-chips" data-product-id="${product.id}">
+            ${product.volumes
+              .map(
+                (v, index) => `
+              <button
+                class="volume-chip ${index === 0 ? "active" : ""}"
+                data-product-id="${product.id}"
+                data-volume-ml="${v.ml}"
+                data-volume-label="${v.label}"
+                data-price="${v.price}"
+                type="button"
+              >
+                ${v.label}
+              </button>
+            `
+              )
+              .join("")}
+          </div>
+          <button class="add-to-cart detail-add-to-cart" data-id="${product.id}" type="button">
+            <span class="plus">+</span>
+            <span>В корзину</span>
+          </button>
         </div>
       `;
     }
@@ -1535,6 +1594,14 @@
         clearInterval(sliderIntervalId);
         sliderIntervalId = null;
       }
+    }
+
+    function handleDetailVolumeClick(btn) {
+      const container = btn.closest(".detail-volume-chips");
+      if (!container) return;
+      const chips = container.querySelectorAll(".volume-chip");
+      chips.forEach((c) => c.classList.remove("active"));
+      btn.classList.add("active");
     }
 
     // Слушатели
@@ -1621,6 +1688,31 @@
     });
 
     detailPanel.addEventListener("click", (e) => {
+      const volumeBtnDetail = e.target.closest(".detail-volume-chips .volume-chip");
+      if (volumeBtnDetail) {
+        handleDetailVolumeClick(volumeBtnDetail);
+        return;
+      }
+
+      const addDetailBtn = e.target.closest(".detail-add-to-cart");
+      if (addDetailBtn) {
+        const id = addDetailBtn.dataset.id;
+        const container = detailBody.querySelector(
+          '.detail-volume-chips[data-product-id="' + id + '"]'
+        );
+        const activeVolume = container
+          ? container.querySelector(".volume-chip.active")
+          : null;
+        if (!activeVolume) return;
+
+        const volumeMl = activeVolume.dataset.volumeMl;
+        const volumeLabel = activeVolume.dataset.volumeLabel;
+        const price = Number(activeVolume.dataset.price);
+
+        addToCart(id, volumeMl, volumeLabel, price);
+        return;
+      }
+
       const prevBtn = e.target.closest(".detail-slider-nav.prev");
       const nextBtn = e.target.closest(".detail-slider-nav.next");
       const dotBtn = e.target.closest(".detail-slider-dot");
