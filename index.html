@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html><!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -1096,3 +1096,113 @@
     }
 
     function handleVolumeClick(btn) {
+      const card = btn.closest(".product-card");
+      if (!card) return;
+      const chips = card.querySelectorAll(".volume-chip");
+      chips.forEach((c) => c.classList.remove("active"));
+      btn.classList.add("active");
+
+      const price = Number(btn.dataset.price);
+      const priceEl = card.querySelector(".product-price");
+      if (priceEl) {
+        priceEl.textContent = formatPrice(price);
+      }
+    }
+
+    function sendOrder() {
+      if (!cart.length) return;
+      const order = {
+        type: "order",
+        items: cart,
+        total: getCartTotal(),
+        createdAt: new Date().toISOString(),
+        source: "telegram-miniapp"
+      };
+
+      if (tg) {
+        tg.sendData(JSON.stringify(order));
+        tg.close();
+      } else {
+        alert(
+          "Демо‑режим: заказ не отправлен в Telegram, т.к. страница открыта вне Telegram."
+        );
+      }
+    }
+
+    // Слушатели
+
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.trim();
+      renderCatalog();
+    });
+
+    filters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filters.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.dataset.filter;
+        renderCatalog();
+      });
+    });
+
+    catalogEl.addEventListener("click", (e) => {
+      const volumeBtn = e.target.closest(".volume-chip");
+      if (volumeBtn) {
+        handleVolumeClick(volumeBtn);
+        return;
+      }
+
+      const btn = e.target.closest(".add-to-cart");
+      if (!btn) return;
+
+      const card = btn.closest(".product-card");
+      if (!card) return;
+
+      const activeVolume = card.querySelector(".volume-chip.active");
+      if (!activeVolume) return;
+
+      const id = btn.dataset.id;
+      const volumeMl = activeVolume.dataset.volumeMl;
+      const volumeLabel = activeVolume.dataset.volumeLabel;
+      const price = Number(activeVolume.dataset.price);
+
+      addToCart(id, volumeMl, volumeLabel, price);
+    });
+
+    cartToggle.addEventListener("click", () => {
+      openCart();
+    });
+
+    cartClose.addEventListener("click", () => {
+      closeCart();
+    });
+
+    cartItemsEl.addEventListener("click", (e) => {
+      const itemEl = e.target.closest(".cart-item");
+      if (!itemEl) return;
+      const cartItemId = itemEl.dataset.cartItemId;
+
+      if (e.target.classList.contains("plus")) {
+        changeCartQty(cartItemId, 1);
+      } else if (e.target.classList.contains("minus")) {
+        changeCartQty(cartItemId, -1);
+      } else if (e.target.classList.contains("qty-remove")) {
+        removeFromCart(cartItemId);
+      }
+    });
+
+    checkoutButton.addEventListener("click", () => {
+      sendOrder();
+    });
+
+    if (tg) {
+      tg.MainButton.onClick(() => {
+        sendOrder();
+      });
+    }
+
+    renderCatalog();
+    updateCart();
+  </script>
+</body>
+</html>
