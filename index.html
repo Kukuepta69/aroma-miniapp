@@ -1,0 +1,997 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <title>Aroma Room — парфюмерный мини‑бутик</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <style>
+    :root {
+      color-scheme: light dark;
+      --radius-lg: 18px;
+      --radius-md: 12px;
+      --transition-fast: 0.2s ease-out;
+      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.35);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
+        "Roboto", sans-serif;
+      background: var(--tg-theme-bg-color, #050509);
+      color: var(--tg-theme-text-color, #ffffff);
+    }
+
+    .app {
+      min-height: 100vh;
+      padding: 16px;
+      padding-bottom: 96px; /* запас под панель корзины / MainButton */
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* HEADER */
+
+    .app-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .brand-logo {
+      width: 40px;
+      height: 40px;
+      border-radius: 999px;
+      background: conic-gradient(
+        from 220deg,
+        #ff9a9e,
+        #fad0c4,
+        #fad0c4,
+        #fbc2eb,
+        #a6c1ee
+      );
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: #111;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+    }
+
+    .brand-text {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .brand-name {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.02em;
+    }
+
+    .brand-subtitle {
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    .cart-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+      font-size: 13px;
+      user-select: none;
+      transition: background var(--transition-fast), transform 0.1s ease-out;
+    }
+
+    .cart-button:active {
+      transform: scale(0.96);
+      background: rgba(255, 255, 255, 0.12);
+    }
+
+    .cart-icon {
+      font-size: 16px;
+    }
+
+    .cart-count {
+      min-width: 18px;
+      height: 18px;
+      border-radius: 999px;
+      background: var(--tg-theme-button-color, #ffffff);
+      color: var(--tg-theme-button-text-color, #000000);
+      font-size: 11px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+    }
+
+    /* SEARCH */
+
+    .search-section {
+      margin-bottom: 10px;
+    }
+
+    .search-input {
+      width: 100%;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.12);
+      padding: 10px 12px;
+      padding-left: 34px;
+      background: rgba(255, 255, 255, 0.04);
+      color: inherit;
+      font-size: 14px;
+      outline: none;
+      position: relative;
+    }
+
+    .search-wrapper {
+      position: relative;
+    }
+
+    .search-icon {
+      position: absolute;
+      left: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      font-size: 14px;
+      opacity: 0.6;
+    }
+
+    .search-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* FILTERS */
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+      margin-bottom: 12px;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-chip {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.16);
+      padding: 6px 10px;
+      background: rgba(255, 255, 255, 0.02);
+      color: inherit;
+      font-size: 12px;
+      white-space: nowrap;
+      cursor: pointer;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .filter-chip span.dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+    }
+
+    .filter-chip.active {
+      background: var(--tg-theme-button-color, #ffffff);
+      color: var(--tg-theme-button-text-color, #000000);
+      border-color: transparent;
+    }
+
+    /* CATALOG */
+
+    .catalog {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 24px;
+    }
+
+    .product-card {
+      display: flex;
+      gap: 12px;
+      padding: 12px;
+      border-radius: var(--radius-lg);
+      background: radial-gradient(
+          circle at 0 0,
+          rgba(255, 255, 255, 0.08),
+          transparent 50%
+        ),
+        rgba(15, 15, 30, 0.9);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: var(--shadow-soft);
+      backdrop-filter: blur(18px);
+    }
+
+    .product-media {
+      flex: 0 0 64px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .product-bottle {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: conic-gradient(
+        from 200deg,
+        #ff9a9e,
+        #fecfef,
+        #f6d5f7,
+        #e0c3fc,
+        #8ec5fc
+      );
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
+      display: flex;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .bottle-cap {
+      position: absolute;
+      top: -6px;
+      width: 26px;
+      height: 10px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      left: 50%;
+      transform: translateX(-50%);
+      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
+    }
+
+    .bottle-label {
+      width: 80%;
+      height: 22px;
+      margin-bottom: 10px;
+      border-radius: 12px;
+      background: rgba(0, 0, 0, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #f5f5f5;
+      font-size: 10px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+    }
+
+    .gender-pill {
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-size: 10px;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: rgba(255, 255, 255, 0.8);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
+    .product-main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .product-brand {
+      font-size: 11px;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+    }
+
+    .product-name {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .product-meta {
+      font-size: 11px;
+      opacity: 0.7;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .product-notes {
+      font-size: 11px;
+      opacity: 0.75;
+    }
+
+    .product-bottom {
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 6px;
+    }
+
+    .product-price-block {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .product-price {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .product-price-note {
+      font-size: 10px;
+      opacity: 0.65;
+    }
+
+    .add-to-cart {
+      border-radius: 999px;
+      padding: 7px 14px;
+      border: none;
+      font-size: 13px;
+      font-weight: 500;
+      background: var(--tg-theme-button-color, #ffffff);
+      color: var(--tg-theme-button-text-color, #000000);
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+      outline: none;
+      transition: transform 0.08s ease-out, box-shadow 0.08s ease-out;
+    }
+
+    .add-to-cart:active {
+      transform: scale(0.96);
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+    }
+
+    .add-to-cart span.plus {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    /* CART PANEL */
+
+    .cart-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: -100%;
+      background: rgba(10, 10, 20, 0.98);
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -14px 40px rgba(0, 0, 0, 0.6);
+      padding: 10px 16px 16px;
+      max-width: 600px;
+      margin: 0 auto;
+      transition: bottom 0.26s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 50;
+      border-top: 1px solid rgba(255, 255, 255, 0.12);
+    }
+
+    .cart-panel.open {
+      bottom: 0;
+    }
+
+    .cart-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .cart-close {
+      border: none;
+      background: transparent;
+      color: inherit;
+      opacity: 0.7;
+      font-size: 12px;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .cart-items {
+      max-height: 210px;
+      overflow-y: auto;
+      padding-right: 4px;
+      margin-bottom: 10px;
+    }
+
+    .cart-items::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .cart-items::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.16);
+      border-radius: 999px;
+    }
+
+    .cart-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+      gap: 8px;
+    }
+
+    .cart-item:last-child {
+      border-bottom: none;
+    }
+
+    .cart-item-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .cart-item-name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .cart-item-meta {
+      font-size: 11px;
+      opacity: 0.7;
+    }
+
+    .cart-item-controls {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+    }
+
+    .qty-btn {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.26);
+      background: transparent;
+      color: inherit;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 16px;
+      line-height: 1;
+      padding: 0;
+    }
+
+    .qty-remove {
+      border: none;
+      background: transparent;
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0 4px;
+    }
+
+    .cart-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-top: 4px;
+    }
+
+    .cart-total {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+      font-size: 13px;
+    }
+
+    .cart-total span:last-child {
+      font-weight: 600;
+      font-size: 15px;
+    }
+
+    .checkout-button {
+      flex: 1;
+      border-radius: 999px;
+      border: none;
+      background: var(--tg-theme-button-color, #ffffff);
+      color: var(--tg-theme-button-text-color, #000000);
+      font-size: 14px;
+      font-weight: 600;
+      padding: 10px 14px;
+      cursor: pointer;
+      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.6);
+    }
+
+    .empty-cart {
+      font-size: 13px;
+      opacity: 0.7;
+      padding: 10px 0;
+    }
+
+    /* TOAST */
+
+    .toast {
+      position: fixed;
+      left: 50%;
+      bottom: 18px;
+      transform: translateX(-50%) translateY(120%);
+      padding: 8px 14px;
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.82);
+      color: #fff;
+      font-size: 13px;
+      max-width: 80%;
+      text-align: center;
+      z-index: 60;
+      opacity: 0;
+      transition: opacity 0.2s ease-out,
+        transform 0.2s ease-out;
+      pointer-events: none;
+    }
+
+    .toast.show {
+      opacity: 1;
+      transform: translateX(-50%) translateY(0);
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <header class="app-header">
+      <div class="brand">
+        <div class="brand-logo">AR</div>
+        <div class="brand-text">
+          <div class="brand-name">Aroma Room</div>
+          <div class="brand-subtitle">парфюмерный мини‑бутик</div>
+        </div>
+      </div>
+      <div class="cart-button" id="cartToggle">
+        <span class="cart-icon">🛒</span>
+        <span class="cart-count" id="cartCount">0</span>
+      </div>
+    </header>
+
+    <section class="search-section">
+      <div class="search-wrapper">
+        <span class="search-icon">🔍</span>
+        <input
+          id="searchInput"
+          class="search-input"
+          type="text"
+          placeholder="Поиск аромата или бренда…"
+        />
+      </div>
+    </section>
+
+    <section class="filters">
+      <button class="filter-chip active" data-filter="all">
+        Все
+      </button>
+      <button class="filter-chip" data-filter="unisex">
+        <span class="dot" style="background:#f6d365;"></span>Унисекс
+      </button>
+      <button class="filter-chip" data-filter="female">
+        <span class="dot" style="background:#ff9a9e;"></span>Женские
+      </button>
+      <button class="filter-chip" data-filter="male">
+        <span class="dot" style="background:#8fd3f4;"></span>Мужские
+      </button>
+    </section>
+
+    <main class="catalog" id="catalog"></main>
+
+    <!-- ПАНЕЛЬ КОРЗИНЫ -->
+    <div class="cart-panel" id="cartPanel">
+      <div class="cart-header">
+        <span>Корзина</span>
+        <button class="cart-close" id="cartClose">Закрыть</button>
+      </div>
+      <div class="cart-items" id="cartItems"></div>
+      <div class="cart-footer">
+        <div class="cart-total">
+          <span>Итого:</span>
+          <span id="cartTotal">0 ₽</span>
+        </div>
+        <button class="checkout-button" id="checkoutButton">
+          Оформить заказ
+        </button>
+      </div>
+    </div>
+
+    <div class="toast" id="toast"></div>
+  </div>
+
+  <script>
+    const tg = window.Telegram ? window.Telegram.WebApp : null;
+    if (tg) {
+      tg.expand();
+      tg.ready();
+    }
+
+    const perfumes = [
+      {
+        id: "santal-night",
+        brand: "Aroma Room",
+        name: "Santal Night",
+        volume: "50 мл",
+        intensity: "Парфюмерная вода",
+        gender: "unisex",
+        notes: ["сандал", "кардамон", "мускус"],
+        price: 8900,
+        shortCode: "SN"
+      },
+      {
+        id: "noir-rose",
+        brand: "Aroma Room",
+        name: "Noir Rose",
+        volume: "50 мл",
+        intensity: "Парфюмерная вода",
+        gender: "female",
+        notes: ["роза", "пачули", "черная смородина"],
+        price: 9200,
+        shortCode: "NR"
+      },
+      {
+        id: "citrus-coast",
+        brand: "Aroma Room",
+        name: "Citrus Coast",
+        volume: "50 мл",
+        intensity: "Туалетная вода",
+        gender: "unisex",
+        notes: ["бергамот", "морской бриз", "зеленый чай"],
+        price: 7500,
+        shortCode: "CC"
+      },
+      {
+        id: "amber-wood",
+        brand: "Aroma Room",
+        name: "Amber Wood",
+        volume: "50 мл",
+        intensity: "Парфюмерная вода",
+        gender: "male",
+        notes: ["амбра", "кедр", "кожа"],
+        price: 9100,
+        shortCode: "AW"
+      },
+      {
+        id: "fig-blossom",
+        brand: "Aroma Room",
+        name: "Fig Blossom",
+        volume: "30 мл",
+        intensity: "Парфюмерная вода",
+        gender: "female",
+        notes: ["инжир", "белые цветы", "мускус"],
+        price: 6400,
+        shortCode: "FB"
+      },
+      {
+        id: "clean-linen",
+        brand: "Aroma Room",
+        name: "Clean Linen",
+        volume: "50 мл",
+        intensity: "Туалетная вода",
+        gender: "unisex",
+        notes: ["альдегиды", "ландыш", "мускус"],
+        price: 6900,
+        shortCode: "CL"
+      }
+    ];
+
+    let currentFilter = "all";
+    let searchQuery = "";
+    let cart = [];
+
+    const catalogEl = document.getElementById("catalog");
+    const searchInput = document.getElementById("searchInput");
+    const filters = document.querySelectorAll(".filter-chip");
+    const cartToggle = document.getElementById("cartToggle");
+    const cartPanel = document.getElementById("cartPanel");
+    const cartClose = document.getElementById("cartClose");
+    const cartItemsEl = document.getElementById("cartItems");
+    const cartCountEl = document.getElementById("cartCount");
+    const cartTotalEl = document.getElementById("cartTotal");
+    const checkoutButton = document.getElementById("checkoutButton");
+    const toastEl = document.getElementById("toast");
+
+    function formatPrice(value) {
+      return new Intl.NumberFormat("ru-RU", {
+        style: "currency",
+        currency: "RUB",
+        maximumFractionDigits: 0
+      }).format(value);
+    }
+
+    function genderLabel(gender) {
+      switch (gender) {
+        case "male":
+          return "МУЖСКОЙ";
+        case "female":
+          return "ЖЕНСКИЙ";
+        default:
+          return "УНИСЕКС";
+      }
+    }
+
+    function bottleColorStyle(gender) {
+      if (gender === "male") {
+        return "background: conic-gradient(from 220deg,#8fd3f4,#84fab0,#6a85b6,#8e9eab);";
+      }
+      if (gender === "female") {
+        return "background: conic-gradient(from 200deg,#ff9a9e,#fecfef,#f6d5f7,#fbc2eb);";
+      }
+      return "background: conic-gradient(from 200deg,#f6d365,#fda085,#fbc2eb,#a1c4fd);";
+    }
+
+    function applyFilters(list) {
+      return list.filter((p) => {
+        const matchesFilter =
+          currentFilter === "all" ? true : p.gender === currentFilter;
+        if (!matchesFilter) return false;
+        if (!searchQuery) return true;
+
+        const haystack = (
+          p.name +
+          " " +
+          p.brand +
+          " " +
+          p.notes.join(" ")
+        ).toLowerCase();
+        return haystack.includes(searchQuery.toLowerCase());
+      });
+    }
+
+    function renderCatalog() {
+      const items = applyFilters(perfumes);
+      if (!items.length) {
+        catalogEl.innerHTML =
+          '<div style="font-size:13px;opacity:.7;padding:10px 2px;">' +
+          "Ничего не найдено. Попробуйте изменить фильтры или запрос." +
+          "</div>";
+        return;
+      }
+
+      catalogEl.innerHTML = items
+        .map((p) => {
+          return `
+          <article class="product-card">
+            <div class="product-media">
+              <div class="product-bottle" style="${bottleColorStyle(p.gender)}">
+                <div class="bottle-cap"></div>
+                <div class="bottle-label">${p.shortCode}</div>
+              </div>
+              <div class="gender-pill">${genderLabel(p.gender)}</div>
+            </div>
+            <div class="product-main">
+              <div class="product-brand">${p.brand}</div>
+              <div class="product-name">${p.name}</div>
+              <div class="product-meta">
+                <span>${p.volume}</span>
+                <span>• ${p.intensity}</span>
+              </div>
+              <div class="product-notes">${p.notes.join(" · ")}</div>
+              <div class="product-bottom">
+                <div class="product-price-block">
+                  <div class="product-price">${formatPrice(p.price)}</div>
+                  <div class="product-price-note">при покупке от 1 флакона</div>
+                </div>
+                <button class="add-to-cart" data-id="${p.id}">
+                  <span class="plus">+</span>
+                  <span>В корзину</span>
+                </button>
+              </div>
+            </div>
+          </article>
+        `;
+        })
+        .join("");
+    }
+
+    function showToast(message) {
+      toastEl.textContent = message;
+      toastEl.classList.add("show");
+      setTimeout(() => {
+        toastEl.classList.remove("show");
+      }, 1800);
+    }
+
+    function openCart() {
+      cartPanel.classList.add("open");
+    }
+
+    function closeCart() {
+      cartPanel.classList.remove("open");
+    }
+
+    function getCartTotal() {
+      return cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+    }
+
+    function updateMainButton() {
+      if (!tg) return;
+      const total = getCartTotal();
+      if (!cart.length) {
+        tg.MainButton.hide();
+        return;
+      }
+      tg.MainButton.setText("Оформить: " + formatPrice(total));
+      tg.MainButton.show();
+    }
+
+    function updateCart() {
+      const totalCount = cart.reduce((sum, item) => sum + item.qty, 0);
+      cartCountEl.textContent = totalCount;
+
+      if (!cart.length) {
+        cartItemsEl.innerHTML =
+          '<div class="empty-cart">Ваша корзина пуста. Добавьте аромат, чтобы оформить заказ.</div>';
+        cartTotalEl.textContent = "0 ₽";
+        updateMainButton();
+        return;
+      }
+
+      cartItemsEl.innerHTML = cart
+        .map(
+          (item) => `
+        <div class="cart-item" data-id="${item.id}">
+          <div class="cart-item-info">
+            <div class="cart-item-name">${item.name}</div>
+            <div class="cart-item-meta">${item.volume} · ${formatPrice(
+            item.price
+          )}</div>
+          </div>
+          <div class="cart-item-controls">
+            <button class="qty-btn minus">−</button>
+            <span>${item.qty}</span>
+            <button class="qty-btn plus">+</button>
+            <button class="qty-remove">×</button>
+          </div>
+        </div>
+      `
+        )
+        .join("");
+
+      const total = getCartTotal();
+      cartTotalEl.textContent = formatPrice(total);
+      updateMainButton();
+    }
+
+    function addToCart(id) {
+      const product = perfumes.find((p) => p.id === id);
+      if (!product) return;
+
+      const existing = cart.find((item) => item.id === id);
+      if (existing) {
+        existing.qty += 1;
+      } else {
+        cart.push({
+          id: product.id,
+          name: product.name,
+          price: product.price,
+          volume: product.volume,
+          qty: 1
+        });
+      }
+      updateCart();
+      showToast("Добавлено в корзину");
+    }
+
+    function changeCartQty(id, delta) {
+      const item = cart.find((i) => i.id === id);
+      if (!item) return;
+      item.qty += delta;
+      if (item.qty <= 0) {
+        cart = cart.filter((i) => i.id !== id);
+      }
+      updateCart();
+    }
+
+    function removeFromCart(id) {
+      cart = cart.filter((i) => i.id !== id);
+      updateCart();
+    }
+
+    function sendOrder() {
+      if (!cart.length) return;
+      const order = {
+        type: "order",
+        items: cart,
+        total: getCartTotal(),
+        createdAt: new Date().toISOString(),
+        source: "telegram-miniapp"
+      };
+
+      if (tg) {
+        tg.sendData(JSON.stringify(order));
+        tg.close(); // можно убрать, если хотите не закрывать мини‑app
+      } else {
+        alert(
+          "Демо‑режим: заказ не отправлен в Telegram, т.к. страница открыта вне Telegram."
+        );
+      }
+    }
+
+    // Слушатели
+
+    searchInput.addEventListener("input", (e) => {
+      searchQuery = e.target.value.trim();
+      renderCatalog();
+    });
+
+    filters.forEach((btn) => {
+      btn.addEventListener("click", () => {
+        filters.forEach((b) => b.classList.remove("active"));
+        btn.classList.add("active");
+        currentFilter = btn.dataset.filter;
+        renderCatalog();
+      });
+    });
+
+    catalogEl.addEventListener("click", (e) => {
+      const btn = e.target.closest(".add-to-cart");
+      if (!btn) return;
+      const id = btn.dataset.id;
+      addToCart(id);
+    });
+
+    cartToggle.addEventListener("click", () => {
+      openCart();
+    });
+
+    cartClose.addEventListener("click", () => {
+      closeCart();
+    });
+
+    cartItemsEl.addEventListener("click", (e) => {
+      const itemEl = e.target.closest(".cart-item");
+      if (!itemEl) return;
+      const id = itemEl.dataset.id;
+
+      if (e.target.classList.contains("plus")) {
+        changeCartQty(id, 1);
+      } else if (e.target.classList.contains("minus")) {
+        changeCartQty(id, -1);
+      } else if (e.target.classList.contains("qty-remove")) {
+        removeFromCart(id);
+      }
+    });
+
+    checkoutButton.addEventListener("click", () => {
+      sendOrder();
+    });
+
+    if (tg) {
+      tg.MainButton.onClick(() => {
+        sendOrder();
+      });
+    }
+
+    renderCatalog();
+    updateCart();
+  </script>
+</body>
+</html>
