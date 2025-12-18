@@ -1,4 +1,4 @@
-<!DOCTYPE html><!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
@@ -40,7 +40,7 @@
       display: flex;
       align-items: center;
       justify-content: space-between;
-      margin-bottom: 16px;
+      margin-bottom: 12px;
     }
 
     .brand {
@@ -120,6 +120,22 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      font-weight: 600;
+    }
+
+    /* Баннер доставки */
+
+    .delivery-banner {
+      margin-bottom: 12px;
+      padding: 8px 12px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid rgba(255, 255, 255, 0.18);
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .delivery-banner span {
       font-weight: 600;
     }
 
@@ -217,6 +233,7 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       box-shadow: var(--shadow-soft);
       backdrop-filter: blur(18px);
+      cursor: pointer;
     }
 
     .product-media {
@@ -568,6 +585,207 @@
       padding: 10px 2px;
     }
 
+    /* Детальная страница аромата */
+
+    .detail-panel {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 5, 10, 0.96);
+      backdrop-filter: blur(18px);
+      transform: translateY(100%);
+      transition: transform 0.25s ease-out;
+      z-index: 70;
+    }
+
+    .detail-panel.open {
+      transform: translateY(0);
+    }
+
+    .detail-inner {
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 12px 16px 20px;
+      box-sizing: border-box;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .detail-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+
+    .detail-back {
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.04);
+      color: inherit;
+      font-size: 13px;
+      padding: 6px 10px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .detail-back span.icon {
+      font-size: 16px;
+      line-height: 1;
+    }
+
+    .detail-body {
+      flex: 1;
+      overflow-y: auto;
+      padding-bottom: 8px;
+    }
+
+    .detail-slider {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .detail-slider-viewport {
+      overflow: hidden;
+      border-radius: 18px;
+      aspect-ratio: 1 / 1; /* Квадратные фото */
+      background: radial-gradient(circle at 0 0, rgba(255,255,255,0.08), transparent 55%),
+        rgba(10, 10, 20, 0.95);
+    }
+
+    .detail-slider-track {
+      display: flex;
+      height: 100%;
+      transition: transform 0.3s ease-out;
+    }
+
+    .detail-slide {
+      min-width: 100%;
+      height: 100%;
+    }
+
+    .detail-slide img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .detail-slider-nav {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(0, 0, 0, 0.55);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      font-size: 18px;
+      padding: 0;
+    }
+
+    .detail-slider-nav.prev {
+      left: 8px;
+    }
+
+    .detail-slider-nav.next {
+      right: 8px;
+    }
+
+    .detail-slider-dots {
+      display: flex;
+      justify-content: center;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .detail-slider-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 999px;
+      border: none;
+      background: rgba(255, 255, 255, 0.4);
+      padding: 0;
+      cursor: pointer;
+    }
+
+    .detail-slider-dot.active {
+      width: 14px;
+      background: var(--tg-theme-button-color, #ffffff);
+    }
+
+    .detail-no-images {
+      font-size: 12px;
+      opacity: 0.7;
+      padding: 8px 2px 16px;
+    }
+
+    .detail-text {
+      font-size: 13px;
+    }
+
+    .detail-brand {
+      font-size: 11px;
+      opacity: 0.7;
+      text-transform: uppercase;
+      letter-spacing: 0.16em;
+      margin-bottom: 2px;
+    }
+
+    .detail-name {
+      font-size: 18px;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    .detail-meta {
+      font-size: 11px;
+      opacity: 0.8;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-bottom: 10px;
+    }
+
+    .detail-section-title {
+      font-size: 11px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      opacity: 0.7;
+      margin-top: 10px;
+      margin-bottom: 4px;
+    }
+
+    .detail-notes {
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .detail-description {
+      font-size: 13px;
+      opacity: 0.9;
+      line-height: 1.5;
+    }
+
+    .detail-volumes-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      font-size: 13px;
+      opacity: 0.9;
+    }
+
+    .detail-volumes-list li {
+      margin-bottom: 4px;
+    }
+
     .toast {
       position: fixed;
       left: 50%;
@@ -607,6 +825,10 @@
         <span class="cart-count" id="cartCount">0</span>
       </div>
     </header>
+
+    <div class="delivery-banner">
+      При заказе от <span>5&nbsp;000&nbsp;₽</span> доставка по Нижнему Новгороду — <span>бесплатно</span>.
+    </div>
 
     <section class="search-section">
       <div class="search-wrapper">
@@ -654,14 +876,27 @@
       </div>
     </div>
 
+    <!-- Детальная страница аромата -->
+    <div class="detail-panel" id="detailPanel">
+      <div class="detail-inner">
+        <div class="detail-header">
+          <button class="detail-back" id="detailBack">
+            <span class="icon">←</span>
+            <span>Каталог</span>
+          </button>
+        </div>
+        <div class="detail-body" id="detailBody"></div>
+      </div>
+    </div>
+
     <div class="toast" id="toast"></div>
   </div>
 
   <script>
     const tg = window.Telegram ? window.Telegram.WebApp : null;
     if (tg) {
-      tg.expand();
       tg.ready();
+      tg.expand();
     }
 
     // ВАЖНО: цены примерные, перед запуском обновите их по духи.рф
@@ -684,6 +919,9 @@
           { ml: 50, label: "50 мл", price: 32900 },
           { ml: 100, label: "100 мл", price: 45900 }
         ],
+        images: [
+          "https://i.pinimg.com/736x/8e/98/d2/8e98d27ca351b289ec55fee9c4464afc.jpg"
+        ],
         shortCode: "BR540"
       },
       {
@@ -703,6 +941,9 @@
           { ml: 50, label: "50 мл", price: 11400 },
           { ml: 100, label: "100 мл", price: 15900 }
         ],
+        images: [
+          "https://i.pinimg.com/1200x/5a/00/f1/5a00f1894fea82bca73310361dd85803.jpg"
+        ],
         shortCode: "M01"
       },
       {
@@ -721,6 +962,9 @@
           { ml: 10, label: "10 мл (распив)", price: 5900 },
           { ml: 50, label: "50 мл", price: 24900 },
           { ml: 100, label: "100 мл", price: 33900 }
+        ],
+        images: [
+          "https://i.pinimg.com/1200x/64/47/b4/6447b48b83183d20df7006d3b2fc1cf0.jpg"
         ],
         shortCode: "OW"
       },
@@ -743,6 +987,9 @@
           { ml: 50, label: "50 мл", price: 13900 },
           { ml: 100, label: "100 мл", price: 18900 }
         ],
+        images: [
+          "https://i.pinimg.com/1200x/cc/7a/e2/cc7ae220514619cc890f7024c9c4a912.jpg"
+        ],
         shortCode: "CM"
       },
       {
@@ -762,6 +1009,9 @@
           { ml: 50, label: "50 мл", price: 10400 },
           { ml: 90, label: "90 мл", price: 13900 }
         ],
+        images: [
+          "https://i.pinimg.com/1200x/7b/ef/75/7bef75282c9bcc0ef9c2c3f0acafe60d.jpg"
+        ],
         shortCode: "BO"
       },
       {
@@ -780,6 +1030,9 @@
           { ml: 10, label: "10 мл (распив)", price: 2500 },
           { ml: 50, label: "50 мл", price: 9400 },
           { ml: 100, label: "100 мл", price: 12900 }
+        ],
+        images: [
+          "https://i.pinimg.com/1200x/b4/33/45/b43345a4ab7db03eba9d50e6c0bd46dc.jpg"
         ],
         shortCode: "LVEB"
       },
@@ -802,6 +1055,7 @@
           { ml: 60, label: "60 мл", price: 9900 },
           { ml: 100, label: "100 мл", price: 13900 }
         ],
+        // images будут добавлены позже
         shortCode: "SAUV"
       },
       {
@@ -821,6 +1075,7 @@
           { ml: 50, label: "50 мл", price: 12400 },
           { ml: 100, label: "100 мл", price: 16900 }
         ],
+        // images будут добавлены позже
         shortCode: "BDC"
       },
       {
@@ -840,6 +1095,7 @@
           { ml: 50, label: "50 мл", price: 8900 },
           { ml: 100, label: "100 мл", price: 11900 }
         ],
+        // images будут добавлены позже
         shortCode: "ADG"
       }
     ];
@@ -859,6 +1115,15 @@
     const cartTotalEl = document.getElementById("cartTotal");
     const checkoutButton = document.getElementById("checkoutButton");
     const toastEl = document.getElementById("toast");
+
+    // Деталька / слайдер
+    const detailPanel = document.getElementById("detailPanel");
+    const detailBody = document.getElementById("detailBody");
+    const detailBack = document.getElementById("detailBack");
+
+    let currentDetailProduct = null;
+    let currentSlideIndex = 0;
+    let sliderIntervalId = null;
 
     function formatPrice(value) {
       return new Intl.NumberFormat("ru-RU", {
@@ -941,7 +1206,7 @@
             .join("");
 
           return `
-          <article class="product-card">
+          <article class="product-card" data-id="${p.id}">
             <div class="product-media">
               <div class="product-bottle" style="${bottleColorStyle(p.gender)}">
                 <div class="bottle-cap"></div>
@@ -1075,9 +1340,7 @@
         });
       }
       updateCart();
-      showToast(
-        `Добавлено: ${product.name}, ${volumeLabel}`
-      );
+      showToast(`Добавлено: ${product.name}, ${volumeLabel}`);
     }
 
     function changeCartQty(cartItemId, delta) {
@@ -1129,6 +1392,151 @@
       }
     }
 
+    // Детальная страница и слайдер
+
+    function renderDetail(product) {
+      const hasImages = product.images && product.images.length > 0;
+
+      let sliderHtml = "";
+      if (hasImages) {
+        sliderHtml = `
+          <div class="detail-slider">
+            <div class="detail-slider-viewport">
+              <div class="detail-slider-track" id="detailSliderTrack">
+                ${product.images
+                  .map(
+                    (url) => `
+                  <div class="detail-slide">
+                    <img src="${url}" alt="${product.brand} ${product.name}" loading="lazy" />
+                  </div>
+                `
+                  )
+                  .join("")}
+              </div>
+            </div>
+            ${
+              product.images.length > 1
+                ? `
+              <button class="detail-slider-nav prev" type="button">‹</button>
+              <button class="detail-slider-nav next" type="button">›</button>
+            `
+                : ""
+            }
+            ${
+              product.images.length > 1
+                ? `
+              <div class="detail-slider-dots">
+                ${product.images
+                  .map(
+                    (_, idx) => `
+                  <button
+                    class="detail-slider-dot ${idx === 0 ? "active" : ""}"
+                    data-index="${idx}"
+                    type="button"
+                  ></button>
+                `
+                  )
+                  .join("")}
+              </div>
+            `
+                : ""
+            }
+          </div>
+        `;
+      } else {
+        sliderHtml = `<div class="detail-no-images">Фотографии этого аромата появятся позже.</div>`;
+      }
+
+      detailBody.innerHTML = `
+        ${sliderHtml}
+        <div class="detail-text">
+          <div class="detail-brand">${product.brand}</div>
+          <div class="detail-name">${product.name}</div>
+          <div class="detail-meta">
+            <span>${product.intensity}</span>
+            ${product.family ? `<span>• ${product.family}</span>` : ""}
+            <span>• ${genderLabel(product.gender)}</span>
+          </div>
+          <div class="detail-section-title">Ноты аромата</div>
+          <div class="detail-notes">${product.notes.join(" · ")}</div>
+          <div class="detail-section-title">Описание</div>
+          <div class="detail-description">${product.description}</div>
+          <div class="detail-section-title">Доступные объемы</div>
+          <ul class="detail-volumes-list">
+            ${product.volumes
+              .map(
+                (v) => `
+              <li>${v.label} — ${formatPrice(v.price)}</li>
+            `
+              )
+              .join("")}
+          </ul>
+        </div>
+      `;
+    }
+
+    function updateSliderPosition() {
+      const track = document.getElementById("detailSliderTrack");
+      if (!track) return;
+      track.style.transform = `translateX(-${currentSlideIndex * 100}%)`;
+
+      const dots = detailBody.querySelectorAll(".detail-slider-dot");
+      dots.forEach((dot, idx) => {
+        dot.classList.toggle("active", idx === currentSlideIndex);
+      });
+    }
+
+    function resetSliderInterval() {
+      if (sliderIntervalId) {
+        clearInterval(sliderIntervalId);
+        sliderIntervalId = null;
+      }
+      const images = currentDetailProduct?.images || [];
+      if (images.length > 1) {
+        sliderIntervalId = setInterval(() => {
+          changeSlide(1);
+        }, 5000);
+      }
+    }
+
+    function changeSlide(delta) {
+      if (!currentDetailProduct || !currentDetailProduct.images) return;
+      const images = currentDetailProduct.images;
+      if (!images.length) return;
+      currentSlideIndex =
+        (currentSlideIndex + delta + images.length) % images.length;
+      updateSliderPosition();
+    }
+
+    function goToSlide(index) {
+      if (!currentDetailProduct || !currentDetailProduct.images) return;
+      const images = currentDetailProduct.images;
+      if (!images.length) return;
+      currentSlideIndex =
+        ((index % images.length) + images.length) % images.length;
+      updateSliderPosition();
+    }
+
+    function openDetail(id) {
+      const product = perfumes.find((p) => p.id === id);
+      if (!product) return;
+      currentDetailProduct = product;
+      currentSlideIndex = 0;
+      renderDetail(product);
+      updateSliderPosition();
+      detailPanel.classList.add("open");
+      resetSliderInterval();
+    }
+
+    function closeDetail() {
+      detailPanel.classList.remove("open");
+      currentDetailProduct = null;
+      if (sliderIntervalId) {
+        clearInterval(sliderIntervalId);
+        sliderIntervalId = null;
+      }
+    }
+
     // Слушатели
 
     searchInput.addEventListener("input", (e) => {
@@ -1152,21 +1560,27 @@
         return;
       }
 
-      const btn = e.target.closest(".add-to-cart");
-      if (!btn) return;
+      const addBtn = e.target.closest(".add-to-cart");
+      if (addBtn) {
+        const card = addBtn.closest(".product-card");
+        if (!card) return;
+        const activeVolume = card.querySelector(".volume-chip.active");
+        if (!activeVolume) return;
 
-      const card = btn.closest(".product-card");
-      if (!card) return;
+        const id = addBtn.dataset.id;
+        const volumeMl = activeVolume.dataset.volumeMl;
+        const volumeLabel = activeVolume.dataset.volumeLabel;
+        const price = Number(activeVolume.dataset.price);
 
-      const activeVolume = card.querySelector(".volume-chip.active");
-      if (!activeVolume) return;
+        addToCart(id, volumeMl, volumeLabel, price);
+        return;
+      }
 
-      const id = btn.dataset.id;
-      const volumeMl = activeVolume.dataset.volumeMl;
-      const volumeLabel = activeVolume.dataset.volumeLabel;
-      const price = Number(activeVolume.dataset.price);
-
-      addToCart(id, volumeMl, volumeLabel, price);
+      const card = e.target.closest(".product-card");
+      if (card) {
+        const id = card.dataset.id;
+        openDetail(id);
+      }
     });
 
     cartToggle.addEventListener("click", () => {
@@ -1200,6 +1614,29 @@
         sendOrder();
       });
     }
+
+    // Детальная страница — события
+    detailBack.addEventListener("click", () => {
+      closeDetail();
+    });
+
+    detailPanel.addEventListener("click", (e) => {
+      const prevBtn = e.target.closest(".detail-slider-nav.prev");
+      const nextBtn = e.target.closest(".detail-slider-nav.next");
+      const dotBtn = e.target.closest(".detail-slider-dot");
+
+      if (prevBtn) {
+        changeSlide(-1);
+        resetSliderInterval();
+      } else if (nextBtn) {
+        changeSlide(1);
+        resetSliderInterval();
+      } else if (dotBtn) {
+        const idx = Number(dotBtn.dataset.index);
+        goToSlide(idx);
+        resetSliderInterval();
+      }
+    });
 
     renderCatalog();
     updateCart();
