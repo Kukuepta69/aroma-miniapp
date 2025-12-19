@@ -39,7 +39,7 @@
       color: var(--text-main);
       position: relative;
       overflow-x: hidden;
-      background: #020617; /* запасной тёмный фон */
+      background: #020617;
     }
 
     /* Общий фон: размытая картинка */
@@ -97,7 +97,8 @@
       font-weight: 700;
       font-size: 18px;
       color: #2b1813;
-      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
+      /* лёгкая тень у логотипа оставим */
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.35);
     }
 
     .brand-text {
@@ -137,32 +138,23 @@
       cursor: pointer;
       font-size: 13px;
       user-select: none;
-      transition: background var(--transition-fast), transform 0.1s ease-out,
-        box-shadow 0.12s ease-out, border-color 0.12s ease-out;
-    }
-
-    .fav-button {
-      background: rgba(248, 250, 252, 0.95);
       border: 1px solid rgba(209, 213, 219, 0.8);
+      background: rgba(248, 250, 252, 0.95);
       color: #111827;
-      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.18);
+      box-shadow: none;
+      transition: background var(--transition-fast), transform 0.1s ease-out,
+        border-color 0.12s ease-out;
     }
 
-    .fav-button:active {
+    .fav-button:active,
+    .cart-button:active {
       transform: scale(0.96);
-      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.4);
     }
 
     .cart-button {
       background: #111827;
-      border: none;
       color: #f9fafb;
-      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.7);
-    }
-
-    .cart-button:active {
-      transform: scale(0.96);
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.9);
+      border-color: #111827;
     }
 
     .fav-icon,
@@ -203,7 +195,7 @@
       font-size: 12px;
       line-height: 1.4;
       color: #7c2d12;
-      box-shadow: 0 10px 28px rgba(15, 23, 42, 0.45);
+      box-shadow: none;
     }
 
     .delivery-banner span {
@@ -273,9 +265,9 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
+      box-shadow: none;
       transition: background 0.15s ease-out, border-color 0.15s ease-out,
-        color 0.15s ease-out, box-shadow 0.15s.ease-out;
-      box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
+        color 0.15s ease-out;
     }
 
     .filter-chip span.dot {
@@ -309,19 +301,17 @@
       background: rgba(249, 250, 251, 0.96);
       border-radius: var(--radius-lg);
       border: 1px solid rgba(229, 231, 235, 0.9);
-      box-shadow: var(--shadow-soft);
-      overflow: visible; /* не режем тени и флаконы */
+      box-shadow: none;
+      overflow: visible;
       display: flex;
       flex-direction: column;
       cursor: pointer;
-      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-        border-color 0.12s.ease-out;
+      transition: transform 0.12s ease-out, border-color 0.12s ease-out;
       backdrop-filter: blur(10px);
     }
 
     .product-card:active {
       transform: translateY(1px) scale(0.99);
-      box-shadow: 0 8px 28px rgba(15, 23, 42, 0.8);
       border-color: rgba(55, 65, 81, 0.45);
     }
 
@@ -349,8 +339,9 @@
       height: auto;
       object-fit: contain;
       transform-origin: bottom center;
-      transform: scale(1.08);
-      filter: drop-shadow(0 16px 26px rgba(15, 23, 42, 0.55));
+      transform: scale(1.04);
+      /* тени с флакона убираем */
+      filter: none;
     }
 
     .product-image-fallback {
@@ -546,7 +537,7 @@
       bottom: -100%;
       background: #ffffff;
       border-radius: 18px 18px 0 0;
-      box-shadow: 0 -18px 45px rgba(15, 23, 42, 0.8);
+      box-shadow: none;
       padding: 10px 16px 16px;
       max-width: 640px;
       margin: 0 auto;
@@ -683,7 +674,7 @@
       font-weight: 600;
       padding: 10px 14px;
       cursor: pointer;
-      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.9);
+      box-shadow: none;
     }
 
     .empty-cart {
@@ -701,7 +692,7 @@
       bottom: -100%;
       background: #ffffff;
       border-radius: 18px 18px 0 0;
-      box-shadow: 0 -18px 45px rgba(15, 23, 42, 0.8);
+      box-shadow: none;
       padding: 10px 16px 16px;
       max-width: 640px;
       margin: 0 auto;
@@ -811,7 +802,7 @@
       margin: 0 auto;
       background: #ffffff;
       border-radius: 20px 20px 0 0;
-      box-shadow: 0 -18px 45px rgba(15, 23, 42, 0.9);
+      box-shadow: none;
       display: flex;
       flex-direction: column;
       max-height: 90vh;
@@ -854,7 +845,6 @@
       margin-bottom: 12px;
     }
 
-    /* Горизонтальный слайдер */
     .detail-slider-viewport {
       overflow: hidden;
       border-radius: 18px;
@@ -982,32 +972,26 @@
       line-height: 1.5;
     }
 
-    /* Объёмы: один ряд с горизонтальным скроллом */
+    /* Кнопки объёма: в несколько строк, без скролла по X, чуть меньше */
     .detail-volume-chips {
-      margin-top: 10px;
+      margin-top: 8px;
       display: flex;
-      gap: 8px;
-      overflow-x: auto;
-      padding-bottom: 4px;
+      flex-wrap: wrap;
+      gap: 6px;
+      overflow-x: visible;
     }
 
     .detail-volume-chips::-webkit-scrollbar {
-      height: 3px;
+      display: none;
     }
 
-    .detail-volume-chips::-webkit-scrollbar-thumb {
-      background: rgba(148, 163, 184, 0.7);
-      border-radius: 999px;
-    }
-
-    /* Кнопки объёма: цвет как у текста (тёмный фон, белый текст) */
     .volume-chip {
       border-radius: 999px;
       border: 1px solid #111827;
-      padding: 8px 16px;
+      padding: 6px 12px;
       background: #111827;
       color: #f9fafb;
-      font-size: 13px;
+      font-size: 12px;
       cursor: pointer;
       outline: none;
       display: inline-flex;
@@ -1015,33 +999,30 @@
       justify-content: center;
       gap: 4px;
       white-space: nowrap;
-      flex: 0 0 auto;
+      flex: 0 1 auto;
+      max-width: 100%;
+      box-shadow: none;
       transition:
         background 0.16s ease-out,
         border-color 0.16s ease-out,
         color 0.16s ease-out,
-        transform 0.12s ease-out,
-        box-shadow 0.12s ease-out;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.55);
+        transform 0.12s ease-out;
     }
 
-    /* Активный объём — белая кнопка с тёмным контуром */
     .volume-chip.active {
       background: #ffffff;
       color: #111827;
       border-color: #111827;
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.35);
     }
 
     .volume-chip:active {
       transform: scale(0.97);
-      box-shadow: 0 3px 10px rgba(15, 23, 42, 0.4);
     }
 
-    /* Кнопка "В корзину" под цвет текста */
+    /* Кнопка "В корзину" под цвет текста, без тени */
     .add-to-cart {
       border-radius: 999px;
-      padding: 9px 18px;
+      padding: 9px 16px;
       border: none;
       font-size: 13px;
       font-weight: 500;
@@ -1051,18 +1032,16 @@
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
+      box-shadow: none;
       outline: none;
       transition:
-        transform 0.16s ease-out,
-        box-shadow 0.16s ease-out,
+        transform 0.16s.ease-out,
         background 0.16s.ease-out;
       white-space: nowrap;
     }
 
     .add-to-cart:active {
       transform: scale(0.96);
-      box-shadow: 0 5px 18px rgba(15, 23, 42, 0.8);
     }
 
     .add-to-cart.animate {
@@ -1072,15 +1051,12 @@
     @keyframes add-bump {
       0% {
         transform: scale(1);
-        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
       }
       50% {
         transform: scale(0.94);
-        box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
       }
       100% {
         transform: scale(1);
-        box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
       }
     }
 
@@ -1091,7 +1067,7 @@
 
     .detail-add-to-cart {
       margin-top: 12px;
-      padding: 12px 20px;
+      padding: 11px 18px;
       font-size: 14px;
       width: 100%;
       justify-content: center;
@@ -1264,6 +1240,33 @@
         shortCode: "BR540"
       },
       {
+        id: "dior-sauvage",
+        brand: "Dior",
+        name: "Sauvage",
+        gender: "male",
+        intensity: "Туалетная вода",
+        family: "Фужерный, свежий",
+        notes: ["бергамот", "лаванда", "амбра", "перец"],
+        description:
+          "Самый узнаваемый мужской аромат последних лет. Свежий, яркий, с выразительным шлейфом — «чистый, но с характером».",
+        volumes: [
+          { ml: 2, label: "2 мл (распив)", price: 600 },
+          { ml: 5, label: "5 мл (распив)", price: 1300 },
+          { ml: 10, label: "10 мл (распив)", price: 2300 },
+          { ml: 60, label: "60 мл", price: 9900 },
+          { ml: 100, label: "100 мл", price: 13900 }
+        ],
+        thumb:
+          "https://allwebs.ru/images/2025/12/19/526cd212adf3e57f480fb554da10730b.png",
+        images: [
+          "https://allwebs.ru/images/2025/12/19/d13a007d857b9946d38fae718d954e87.jpeg",
+          "https://allwebs.ru/images/2025/12/19/2b672cf357a1f9e3989849e7ebd9fe4b.png",
+          "https://allwebs.ru/images/2025/12/19/cf62f73f879cd629a581d735a15b9c07.jpeg"
+        ],
+        rating: 4.9,
+        shortCode: "SAUV"
+      },
+      {
         id: "oud-wood",
         brand: "Tom Ford",
         name: "Oud Wood",
@@ -1387,33 +1390,6 @@
         ],
         rating: 4.88,
         shortCode: "LVEB"
-      },
-      {
-        id: "dior-sauvage",
-        brand: "Dior",
-        name: "Sauvage",
-        gender: "male",
-        intensity: "Туалетная вода",
-        family: "Фужерный, свежий",
-        notes: ["бергамот", "лаванда", "амбра", "перец"],
-        description:
-          "Самый узнаваемый мужской аромат последних лет. Свежий, яркий, с выразительным шлейфом — «чистый, но с характером».",
-        volumes: [
-          { ml: 2, label: "2 мл (распив)", price: 600 },
-          { ml: 5, label: "5 мл (распив)", price: 1300 },
-          { ml: 10, label: "10 мл (распив)", price: 2300 },
-          { ml: 60, label: "60 мл", price: 9900 },
-          { ml: 100, label: "100 мл", price: 13900 }
-        ],
-        thumb:
-          "https://allwebs.ru/images/2025/12/19/526cd212adf3e57f480fb554da10730b.png",
-        images: [
-          "https://allwebs.ru/images/2025/12/19/d13a007d857b9946d38fae718d954e87.jpeg",
-          "https://allwebs.ru/images/2025/12/19/2b672cf357a1f9e3989849e7ebd9fe4b.png",
-          "https://allwebs.ru/images/2025/12/19/cf62f73f879cd629a581d735a15b9c07.jpeg"
-        ],
-        rating: 4.9,
-        shortCode: "SAUV"
       },
       {
         id: "bleu-de-chanel",
