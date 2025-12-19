@@ -7,11 +7,22 @@
   <script src="https://telegram.org/js/telegram-web-app.js"></script>
   <style>
     :root {
-      color-scheme: light dark;
-      --radius-lg: 22px;
+      color-scheme: light;
+      --radius-lg: 20px;
       --radius-md: 14px;
       --transition-fast: 0.2s ease-out;
-      --shadow-soft: 0 18px 45px rgba(0, 0, 0, 0.5);
+      --shadow-soft: 0 18px 45px rgba(15, 23, 42, 0.15);
+      --bg-body: #f5f5f7;
+      --bg-card: #ffffff;
+      --text-main: #111827;
+      --text-muted: #6b7280;
+      --border-subtle: #e5e7eb;
+      --accent: #111827;
+      --accent-soft: #f3f4f6;
+      --accent-pill: #111827;
+      --accent-pill-text: #f9fafb;
+      --price: #111827;
+      --shadow-card: 0 16px 40px rgba(15, 23, 42, 0.18);
     }
 
     * {
@@ -24,36 +35,19 @@
       padding: 0;
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "SF Pro Text",
         "Roboto", sans-serif;
-      background: #090609;
-      color: #fdf9f6;
-    }
-
-    /* Размытый фон */
-
-    .bg-layer {
-      position: fixed;
-      inset: 0;
-      z-index: -1;
-      overflow: hidden;
-    }
-
-    .bg-layer img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;      /* не искажаем пропорции */
-      filter: blur(4px);      /* лёгкий блюр, чтобы спрятать пиксели */
-      transform: scale(1.08); /* чтобы края размытия не были видны */
+      background: var(--bg-body);
+      color: var(--text-main);
     }
 
     .app {
       min-height: 100vh;
       padding: 16px;
       padding-bottom: 96px;
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
-      position: relative;
-      z-index: 1;
     }
+
+    /* HEADER */
 
     .app-header {
       display: flex;
@@ -74,19 +68,19 @@
       border-radius: 999px;
       background: conic-gradient(
         from 220deg,
-        #f7c29c,
-        #fbe1c5,
-        #f8d2dc,
-        #f4b9c8,
-        #f8e9d5
+        #f97316,
+        #fed7aa,
+        #fee2e2,
+        #fecaca,
+        #fee2e2
       );
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
       font-size: 18px;
-      color: #2b1813;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
+      color: #111827;
+      box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
     }
 
     .brand-text {
@@ -99,15 +93,13 @@
       font-size: 18px;
       font-weight: 700;
       letter-spacing: 0.04em;
-      color: #fff7f0;
-      text-shadow: 0 0 10px rgba(0, 0, 0, 0.7);
+      color: #111827;
     }
 
     .brand-subtitle {
       font-size: 11px;
-      opacity: 0.9;
-      color: #f2e4dd;
-      text-shadow: 0 0 8px rgba(0, 0, 0, 0.6);
+      color: var(--text-muted);
+      letter-spacing: 0.02em;
     }
 
     .cart-button {
@@ -116,21 +108,20 @@
       gap: 6px;
       padding: 6px 10px;
       border-radius: 999px;
-      background: rgba(31, 19, 20, 0.7);
-      border: 1px solid rgba(255, 222, 198, 0.55);
+      background: #111827;
+      color: #f9fafb;
+      border: none;
       cursor: pointer;
       font-size: 13px;
       user-select: none;
       transition: background var(--transition-fast), transform 0.1s ease-out,
         box-shadow 0.12s ease-out;
-      backdrop-filter: blur(18px) saturate(150%);
-      box-shadow: 0 10px 22px rgba(0, 0, 0, 0.45);
+      box-shadow: 0 10px 22px rgba(15, 23, 42, 0.35);
     }
 
     .cart-button:active {
       transform: scale(0.96);
-      background: rgba(40, 24, 26, 0.9);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.45);
     }
 
     .cart-icon {
@@ -141,8 +132,8 @@
       min-width: 18px;
       height: 18px;
       border-radius: 999px;
-      background: #fff;
-      color: #1d1410;
+      background: #f9fafb;
+      color: #111827;
       font-size: 11px;
       display: flex;
       align-items: center;
@@ -150,43 +141,47 @@
       font-weight: 600;
     }
 
+    /* DELIVERY BANNER */
+
     .delivery-banner {
       margin-bottom: 12px;
-      padding: 8px 12px;
-      border-radius: 14px;
-      background: rgba(28, 17, 18, 0.78);
-      border: 1px solid rgba(248, 207, 162, 0.8);
+      padding: 10px 12px;
+      border-radius: 16px;
+      background: #fef2e2;
+      border: 1px solid #fed7aa;
       font-size: 12px;
       line-height: 1.4;
-      backdrop-filter: blur(22px) saturate(150%);
-      box-shadow: 0 10px 28px rgba(0, 0, 0, 0.45);
+      color: #7c2d12;
     }
 
     .delivery-banner span {
       font-weight: 600;
-      color: #ffe0b5;
     }
+
+    /* SEARCH */
 
     .search-section {
       margin-bottom: 10px;
     }
 
+    .search-wrapper {
+      position: relative;
+    }
+
     .search-input {
       width: 100%;
       border-radius: 999px;
-      border: 1px solid rgba(250, 218, 189, 0.6);
+      border: 1px solid var(--border-subtle);
       padding: 10px 12px;
       padding-left: 34px;
-      background: rgba(26, 16, 18, 0.86);
+      background: #ffffff;
       color: inherit;
       font-size: 14px;
       outline: none;
-      position: relative;
-      backdrop-filter: blur(20px) saturate(150%);
     }
 
-    .search-wrapper {
-      position: relative;
+    .search-input::placeholder {
+      color: rgba(107, 114, 128, 0.7);
     }
 
     .search-icon {
@@ -195,12 +190,10 @@
       top: 50%;
       transform: translateY(-50%);
       font-size: 14px;
-      opacity: 0.7;
+      opacity: 0.6;
     }
 
-    .search-input::placeholder {
-      color: rgba(245, 226, 213, 0.7);
-    }
+    /* FILTERS */
 
     .filters {
       display: flex;
@@ -216,9 +209,9 @@
 
     .filter-chip {
       border-radius: 999px;
-      border: 1px solid rgba(250, 215, 186, 0.65);
+      border: 1px solid var(--border-subtle);
       padding: 6px 10px;
-      background: rgba(33, 20, 21, 0.85);
+      background: #ffffff;
       color: inherit;
       font-size: 12px;
       white-space: nowrap;
@@ -227,9 +220,8 @@
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      backdrop-filter: blur(18px) saturate(150%);
       transition: background 0.15s ease-out, border-color 0.15s ease-out,
-        color 0.15s ease-out, transform 0.12s ease-out, box-shadow 0.12s ease-out;
+        color 0.15s ease-out;
     }
 
     .filter-chip span.dot {
@@ -239,136 +231,133 @@
     }
 
     .filter-chip.active {
-      background: linear-gradient(135deg, #ffd4a8, #ffeaf0);
-      color: #2a1713;
-      border-color: transparent;
-      transform: translateY(-0.5px);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.4);
+      background: #111827;
+      color: #f9fafb;
+      border-color: #111827;
     }
 
+    /* CATALOG GRID (2 per row) */
+
     .catalog {
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 12px;
       margin-bottom: 24px;
     }
 
-    /* Крупные карточки в стиле «Apple» */
+    @media (min-width: 540px) {
+      .catalog {
+        gap: 14px;
+      }
+    }
 
     .product-card {
+      background: var(--bg-card);
       border-radius: var(--radius-lg);
-      background:
-        linear-gradient(135deg, rgba(255, 255, 255, 0.14), rgba(255, 255, 255, 0.02)),
-        radial-gradient(circle at 0 0, rgba(248, 208, 170, 0.2), transparent 55%),
-        rgba(23, 12, 14, 0.9);
-      border: 1px solid rgba(250, 212, 181, 0.7);
-      box-shadow: 0 22px 54px rgba(0, 0, 0, 0.85);
-      backdrop-filter: blur(26px) saturate(170%);
-      cursor: pointer;
-      padding: 10px;
+      border: 1px solid var(--border-subtle);
+      box-shadow: var(--shadow-soft);
+      overflow: hidden;
       display: flex;
       flex-direction: column;
-      gap: 10px;
+      cursor: pointer;
+      transition: transform 0.12s ease-out, box-shadow 0.12s ease-out;
     }
 
-    .product-cover {
-      position: relative;
-      border-radius: 20px;
-      overflow: hidden;
-      background: radial-gradient(circle at 30% 0, rgba(255, 255, 255, 0.3), transparent 55%),
-        rgba(28, 16, 18, 0.96);
-      height: 190px;
+    .product-card:active {
+      transform: translateY(1px) scale(0.99);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.18);
+    }
+
+    .product-tap-area {
+      flex: 1;
       display: flex;
-      align-items: center;
-      justify-content: center;
+      flex-direction: column;
     }
 
-    .product-cover-image {
+    .product-image-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: #f3f4f6;
+    }
+
+    .product-image-wrapper img {
       width: 100%;
       height: 100%;
       object-fit: cover;
       display: block;
     }
 
-    .product-cover-fallback {
-      width: 120px;
-      height: 120px;
-      border-radius: 26px;
-      background: conic-gradient(
-        from 200deg,
-        #f6c195,
-        #fde1c7,
-        #f8d5e0,
-        #f0bccb,
-        #f8e2d2
-      );
-      position: relative;
-      box-shadow: 0 16px 40px rgba(0, 0, 0, 0.7);
+    .product-image-fallback {
+      width: 100%;
+      height: 100%;
       display: flex;
       align-items: flex-end;
       justify-content: center;
+      background: conic-gradient(
+        from 200deg,
+        #f97316,
+        #fed7aa,
+        #fee2e2,
+        #fecaca,
+        #fee2e2
+      );
     }
 
-    .product-cover-fallback .bottle-cap {
-      position: absolute;
-      top: -8px;
-      width: 34px;
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.9);
-      left: 50%;
-      transform: translateX(-50%);
-      box-shadow: 0 6px 16px rgba(0, 0, 0, 0.35);
-    }
-
-    .product-cover-fallback .bottle-label {
-      width: 80%;
-      height: 26px;
-      margin-bottom: 12px;
-      border-radius: 14px;
-      background: rgba(0, 0, 0, 0.55);
+    .product-image-fallback-inner {
+      width: 70%;
+      height: 60%;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #f5f5f5;
-      font-size: 10px;
+      color: #111827;
+      font-size: 11px;
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
+      backdrop-filter: blur(10px);
     }
 
-    .product-cover-top {
+    .product-image-badge-row {
       position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
+      top: 8px;
+      left: 8px;
+      right: 8px;
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
       pointer-events: none;
     }
 
-    .product-cover-bottom {
-      position: absolute;
-      bottom: 10px;
-      left: 10px;
-      right: 10px;
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-end;
-      pointer-events: none;
+    .gender-pill {
+      padding: 3px 7px;
+      border-radius: 999px;
+      font-size: 9px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      border: 1px solid rgba(17, 24, 39, 0.1);
+      color: #111827;
+      background: rgba(249, 250, 251, 0.8);
+      backdrop-filter: blur(8px);
+      pointer-events: auto;
     }
 
-    .product-cover-rating {
+    .product-image-rating {
+      position: absolute;
+      bottom: 8px;
+      left: 8px;
       display: inline-flex;
       align-items: center;
       gap: 4px;
-      padding: 4px 8px;
+      padding: 3px 7px;
       border-radius: 999px;
-      background: rgba(23, 12, 14, 0.82);
-      border: 1px solid rgba(248, 208, 170, 0.6);
+      background: rgba(17, 24, 39, 0.84);
+      color: #f9fafb;
       font-size: 10px;
-      backdrop-filter: blur(12px) saturate(140%);
+      backdrop-filter: blur(8px);
     }
 
     .rating-stars {
@@ -376,7 +365,7 @@
       display: inline-block;
       font-size: 10px;
       line-height: 1;
-      color: rgba(255, 255, 255, 0.2);
+      color: rgba(249, 250, 251, 0.25);
     }
 
     .rating-stars::before {
@@ -385,7 +374,7 @@
       inset: 0;
       width: var(--rating-percent, 100%);
       overflow: hidden;
-      color: #ffd369;
+      color: #facc15;
       white-space: nowrap;
     }
 
@@ -394,114 +383,48 @@
     }
 
     .rating-value {
-      opacity: 0.95;
+      opacity: 0.9;
     }
 
-    .gender-pill {
-      padding: 3px 8px;
-      border-radius: 999px;
-      font-size: 9px;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      border: 1px solid rgba(250, 218, 189, 0.8);
-      color: rgba(255, 245, 234, 0.96);
-      background: rgba(29, 17, 18, 0.9);
-      backdrop-filter: blur(14px) saturate(150%);
-      pointer-events: auto;
-    }
-
-    .product-main {
+    .product-info {
+      padding: 8px 8px 6px;
       display: flex;
       flex-direction: column;
-      gap: 4px;
-      padding: 2px 2px 4px;
+      gap: 2px;
     }
 
     .product-brand {
-      font-size: 11px;
-      opacity: 0.7;
+      font-size: 10px;
       text-transform: uppercase;
       letter-spacing: 0.16em;
+      color: var(--text-muted);
     }
 
     .product-name {
       font-weight: 600;
-      font-size: 16px;
+      font-size: 13px;
+      color: var(--text-main);
     }
 
     .product-meta {
-      font-size: 11px;
-      opacity: 0.7;
+      font-size: 10px;
+      color: var(--text-muted);
       display: flex;
-      gap: 6px;
+      gap: 4px;
       flex-wrap: wrap;
     }
 
     .product-notes {
-      font-size: 11px;
-      opacity: 0.85;
-    }
-
-    .product-description {
-      font-size: 11px;
-      opacity: 0.9;
+      font-size: 10px;
+      color: var(--text-muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
       margin-top: 2px;
     }
 
-    .product-volumes {
-      margin-top: 8px;
-    }
-
-    .product-volumes-label {
-      font-size: 10px;
-      opacity: 0.7;
-      text-transform: uppercase;
-      letter-spacing: 0.12em;
-      margin-bottom: 3px;
-    }
-
-    .volume-chips {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 6px;
-    }
-
-    .volume-chip {
-      border-radius: 999px;
-      border: 1px solid rgba(250, 218, 189, 0.8);
-      padding: 3px 8px;
-      background: rgba(29, 17, 18, 0.9);
-      color: inherit;
-      font-size: 11px;
-      cursor: pointer;
-      outline: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 4px;
-      backdrop-filter: blur(12px) saturate(140%);
-      transition:
-        background 0.16s ease-out,
-        border-color 0.16s ease-out,
-        color 0.16s ease-out,
-        transform 0.12s ease-out,
-        box-shadow 0.12s ease-out;
-    }
-
-    .volume-chip:active {
-      transform: scale(0.94);
-      box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.2);
-    }
-
-    .volume-chip.active {
-      background: linear-gradient(135deg, #ffd4a8, #ffeaf0);
-      color: #2a1713;
-      border-color: transparent;
-      transform: scale(1.03);
-      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
-    }
-
     .product-bottom {
-      margin-top: 8px;
+      padding: 0 8px 8px;
       display: flex;
       align-items: center;
       justify-content: space-between;
@@ -516,27 +439,28 @@
 
     .product-price {
       font-weight: 600;
-      font-size: 15px;
+      font-size: 13px;
+      color: var(--price);
     }
 
     .product-price-note {
       font-size: 10px;
-      opacity: 0.65;
+      color: var(--text-muted);
     }
 
     .add-to-cart {
       border-radius: 999px;
-      padding: 7px 14px;
+      padding: 6px 10px;
       border: none;
-      font-size: 13px;
+      font-size: 12px;
       font-weight: 500;
-      background: linear-gradient(135deg, #fffaf5, #f6e0d0);
-      color: #2b1813;
+      background: #111827;
+      color: #f9fafb;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
-      box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
+      gap: 4px;
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
       outline: none;
       transition:
         transform 0.16s ease-out,
@@ -547,11 +471,11 @@
 
     .add-to-cart:active {
       transform: scale(0.96);
-      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5);
+      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.45);
     }
 
     .add-to-cart span.plus {
-      font-size: 16px;
+      font-size: 14px;
       line-height: 1;
     }
 
@@ -565,23 +489,22 @@
       100% { transform: translateY(0) scale(1); }
     }
 
-    /* Корзина */
+    /* CART SHEET */
 
     .cart-panel {
       position: fixed;
       left: 0;
       right: 0;
       bottom: -100%;
-      background: rgba(20, 10, 12, 0.96);
+      background: #ffffff;
       border-radius: 18px 18px 0 0;
-      box-shadow: 0 -18px 45px rgba(0, 0, 0, 0.7);
+      box-shadow: 0 -18px 45px rgba(15, 23, 42, 0.25);
       padding: 10px 16px 16px;
-      max-width: 600px;
+      max-width: 640px;
       margin: 0 auto;
       transition: bottom 0.26s cubic-bezier(0.25, 0.8, 0.25, 1);
       z-index: 50;
-      border-top: 1px solid rgba(250, 212, 184, 0.7);
-      backdrop-filter: blur(22px) saturate(150%);
+      border-top: 1px solid var(--border-subtle);
     }
 
     .cart-panel.open {
@@ -600,8 +523,7 @@
     .cart-close {
       border: none;
       background: transparent;
-      color: inherit;
-      opacity: 0.7;
+      color: var(--text-muted);
       font-size: 12px;
       cursor: pointer;
       padding: 4px 0;
@@ -619,7 +541,7 @@
     }
 
     .cart-items::-webkit-scrollbar-thumb {
-      background: rgba(255, 255, 255, 0.22);
+      background: rgba(156, 163, 175, 0.5);
       border-radius: 999px;
     }
 
@@ -628,7 +550,7 @@
       justify-content: space-between;
       align-items: center;
       padding: 8px 0;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      border-bottom: 1px solid var(--border-subtle);
       gap: 8px;
     }
 
@@ -648,7 +570,7 @@
 
     .cart-item-meta {
       font-size: 11px;
-      opacity: 0.7;
+      color: var(--text-muted);
     }
 
     .cart-item-controls {
@@ -662,7 +584,7 @@
       width: 24px;
       height: 24px;
       border-radius: 999px;
-      border: 1px solid rgba(255, 255, 255, 0.26);
+      border: 1px solid var(--border-subtle);
       background: transparent;
       color: inherit;
       display: flex;
@@ -677,7 +599,7 @@
     .qty-remove {
       border: none;
       background: transparent;
-      color: rgba(255, 255, 255, 0.5);
+      color: var(--text-muted);
       font-size: 16px;
       cursor: pointer;
       padding: 0 4px;
@@ -707,30 +629,28 @@
       flex: 1;
       border-radius: 999px;
       border: none;
-      background: linear-gradient(135deg, #fffaf5, #f6e0d0);
-      color: #2b1813;
+      background: #111827;
+      color: #f9fafb;
       font-size: 14px;
       font-weight: 600;
       padding: 10px 14px;
       cursor: pointer;
-      box-shadow: 0 12px 34px rgba(0, 0, 0, 0.6);
+      box-shadow: 0 12px 34px rgba(15, 23, 42, 0.4);
     }
 
     .empty-cart {
       font-size: 13px;
-      opacity: 0.7;
+      color: var(--text-muted);
       padding: 10px 2px;
     }
 
-    /* Детальная страница */
+    /* DETAIL SHEET */
 
     .detail-panel {
       position: fixed;
       inset: 0;
-      background:
-        radial-gradient(circle at 0 0, rgba(248, 208, 170, 0.22), transparent 55%),
-        linear-gradient(180deg, rgba(18, 10, 12, 0.96), rgba(7, 3, 6, 0.98));
-      backdrop-filter: blur(24px) saturate(160%);
+      background: rgba(15, 23, 42, 0.25);
+      backdrop-filter: blur(8px);
       transform: translateY(100%);
       transition: transform 0.25s ease-out;
       z-index: 70;
@@ -741,13 +661,19 @@
     }
 
     .detail-inner {
-      max-width: 600px;
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      max-width: 640px;
       margin: 0 auto;
-      padding: 12px 16px 20px;
-      box-sizing: border-box;
-      height: 100%;
+      background: #ffffff;
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -18px 45px rgba(15, 23, 42, 0.35);
       display: flex;
       flex-direction: column;
+      max-height: 90vh;
+      padding: 10px 16px 14px;
     }
 
     .detail-header {
@@ -759,16 +685,15 @@
 
     .detail-back {
       border-radius: 999px;
-      border: 1px solid rgba(250, 212, 184, 0.8);
-      background: rgba(31, 19, 20, 0.9);
-      color: inherit;
+      border: 1px solid var(--border-subtle);
+      background: #f9fafb;
+      color: var(--text-main);
       font-size: 13px;
       padding: 6px 10px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 6px;
-      backdrop-filter: blur(14px) saturate(140%);
     }
 
     .detail-back span.icon {
@@ -784,16 +709,14 @@
 
     .detail-slider {
       position: relative;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
 
     .detail-slider-viewport {
       overflow: hidden;
-      border-radius: 20px;
-      aspect-ratio: 1 / 1;
-      background: radial-gradient(circle at 0 0, rgba(248,208,170,0.18), transparent 55%),
-        rgba(23, 12, 14, 0.96);
-      backdrop-filter: blur(24px) saturate(150%);
+      border-radius: 18px;
+      aspect-ratio: 3 / 4;
+      background: #f3f4f6;
     }
 
     .detail-slider-track {
@@ -822,7 +745,7 @@
       height: 28px;
       border-radius: 999px;
       border: none;
-      background: rgba(0, 0, 0, 0.55);
+      background: rgba(0, 0, 0, 0.45);
       color: #fff;
       display: flex;
       align-items: center;
@@ -844,7 +767,7 @@
       display: flex;
       justify-content: center;
       gap: 6px;
-      margin-top: 8px;
+      margin-top: 6px;
     }
 
     .detail-slider-dot {
@@ -852,19 +775,19 @@
       height: 6px;
       border-radius: 999px;
       border: none;
-      background: rgba(255, 255, 255, 0.4);
+      background: rgba(17, 24, 39, 0.2);
       padding: 0;
       cursor: pointer;
     }
 
     .detail-slider-dot.active {
       width: 14px;
-      background: #fff;
+      background: #111827;
     }
 
     .detail-no-images {
       font-size: 12px;
-      opacity: 0.7;
+      color: var(--text-muted);
       padding: 8px 2px 16px;
     }
 
@@ -874,7 +797,7 @@
 
     .detail-brand {
       font-size: 11px;
-      opacity: 0.7;
+      color: var(--text-muted);
       text-transform: uppercase;
       letter-spacing: 0.16em;
       margin-bottom: 2px;
@@ -884,11 +807,12 @@
       font-size: 18px;
       font-weight: 600;
       margin-bottom: 6px;
+      color: var(--text-main);
     }
 
     .detail-meta {
       font-size: 11px;
-      opacity: 0.85;
+      color: var(--text-muted);
       display: flex;
       flex-wrap: wrap;
       gap: 6px;
@@ -899,19 +823,19 @@
       font-size: 11px;
       text-transform: uppercase;
       letter-spacing: 0.12em;
-      opacity: 0.7;
+      color: var(--text-muted);
       margin-top: 10px;
       margin-bottom: 4px;
     }
 
     .detail-notes {
       font-size: 13px;
-      opacity: 0.9;
+      color: var(--text-main);
     }
 
     .detail-description {
       font-size: 13px;
-      opacity: 0.9;
+      color: var(--text-main);
       line-height: 1.5;
     }
 
@@ -923,10 +847,9 @@
     }
 
     .detail-volume-chips .volume-chip {
-      padding: 7px 14px;
-      font-size: 13px;
-      min-height: 34px;
-      border-width: 1.5px;
+      padding: 6px 12px;
+      font-size: 12px;
+      border-width: 1px;
     }
 
     .detail-add-to-cart {
@@ -944,12 +867,12 @@
       transform: translateX(-50%) translateY(120%);
       padding: 8px 14px;
       border-radius: 999px;
-      background: rgba(0, 0, 0, 0.82);
-      color: #fff;
+      background: rgba(17, 24, 39, 0.94);
+      color: #f9fafb;
       font-size: 13px;
       max-width: 80%;
       text-align: center;
-      z-index: 60;
+      z-index: 80;
       opacity: 0;
       transition: opacity 0.2s ease-out, transform 0.2s ease-out;
       pointer-events: none;
@@ -962,10 +885,6 @@
   </style>
 </head>
 <body>
-  <div class="bg-layer">
-    <img src="https://i.pinimg.com/736x/b0/c7/b1/b0c7b16ae626e5bd58e5177122d14ea1.jpg" alt="" />
-  </div>
-
   <div class="app">
     <header class="app-header">
       <div class="brand">
@@ -975,10 +894,10 @@
           <div class="brand-subtitle">мини‑бутик оригинальной парфюмерии</div>
         </div>
       </div>
-      <div class="cart-button" id="cartToggle">
+      <button class="cart-button" id="cartToggle">
         <span class="cart-icon">🛒</span>
         <span class="cart-count" id="cartCount">0</span>
-      </div>
+      </button>
     </header>
 
     <div class="delivery-banner">
@@ -1002,18 +921,19 @@
         Все
       </button>
       <button class="filter-chip" data-filter="unisex">
-        <span class="dot" style="background:#f6d365;"></span>Унисекс
+        <span class="dot" style="background:#f59e0b;"></span>Унисекс
       </button>
       <button class="filter-chip" data-filter="female">
-        <span class="dot" style="background:#ff9a9e;"></span>Женские
+        <span class="dot" style="background:#ec4899;"></span>Женские
       </button>
       <button class="filter-chip" data-filter="male">
-        <span class="dot" style="background:#8fd3f4;"></span>Мужские
+        <span class="dot" style="background:#3b82f6;"></span>Мужские
       </button>
     </section>
 
     <main class="catalog" id="catalog"></main>
 
+    <!-- CART SHEET -->
     <div class="cart-panel" id="cartPanel">
       <div class="cart-header">
         <span>Корзина</span>
@@ -1031,6 +951,7 @@
       </div>
     </div>
 
+    <!-- DETAIL SHEET -->
     <div class="detail-panel" id="detailPanel">
       <div class="detail-inner">
         <div class="detail-header">
@@ -1054,7 +975,6 @@
     }
 
     const perfumes = [
-      // данные ароматов — те же, что были у тебя
       {
         id: "baccarat-rouge-540",
         brand: "Maison Francis Kurkdjian",
@@ -1230,6 +1150,9 @@
           { ml: 50, label: "50 мл", price: 12400 },
           { ml: 100, label: "100 мл", price: 16900 }
         ],
+        images: [
+          "https://i.pinimg.com/1200x/33/69/dc/3369dcddf4e42b1ec7d652d1dfaf6c18.jpg"
+        ],
         rating: 4.93,
         shortCode: "BDC"
       },
@@ -1249,6 +1172,9 @@
           { ml: 10, label: "10 мл (распив)", price: 2100 },
           { ml: 50, label: "50 мл", price: 8900 },
           { ml: 100, label: "100 мл", price: 11900 }
+        ],
+        images: [
+          "https://i.pinimg.com/1200x/b2/a3/50/b2a3508967fcd06515741cab36161e9f.jpg"
         ],
         rating: 4.76,
         shortCode: "ADG"
@@ -1298,16 +1224,6 @@
       }
     }
 
-    function bottleColorStyle(gender) {
-      if (gender === "male") {
-        return "background: conic-gradient(from 220deg,#8fd3f4,#84fab0,#6a85b6,#8e9eab);";
-      }
-      if (gender === "female") {
-        return "background: conic-gradient(from 200deg,#ff9a9e,#fecfef,#f6d5f7,#fbc2eb);";
-      }
-      return "background: conic-gradient(from 200deg,#f6d365,#fda085,#fbc2eb,#a1c4fd);";
-    }
-
     function cleanVolumeLabel(label) {
       return label.replace(/\s*\(распив\)/gi, "");
     }
@@ -1337,7 +1253,7 @@
     function animateButton(btn) {
       if (!btn) return;
       btn.classList.remove("animate");
-      void btn.offsetWidth;
+      void btn.offsetWidth; // restart animation
       btn.classList.add("animate");
     }
 
@@ -1345,7 +1261,7 @@
       const items = applyFilters(perfumes);
       if (!items.length) {
         catalogEl.innerHTML =
-          '<div style="font-size:13px;opacity:.7;padding:10px 2px;">' +
+          '<div style="font-size:13px;color:#6b7280;padding:10px 2px;">' +
           "Ничего не найдено. Попробуйте изменить фильтры или запрос." +
           "</div>";
         return;
@@ -1354,79 +1270,62 @@
       catalogEl.innerHTML = items
         .map((p) => {
           const defaultVolume = p.volumes[0];
-          const volumeChips = p.volumes
-            .map(
-              (v, index) => `
-            <button
-              class="volume-chip ${index === 0 ? "active" : ""}"
-              data-product-id="${p.id}"
-              data-volume-ml="${v.ml}"
-              data-volume-label="${v.label}"
-              data-price="${v.price}"
-            >
-              ${v.label}
-            </button>
-          `
-            )
-            .join("");
-
           const ratingPercent = ((p.rating || 5) / 5) * 100;
+          const hasImage = p.images && p.images.length;
 
-          const coverInner =
-            p.images && p.images.length
-              ? `<img src="${p.images[0]}" alt="${p.brand} ${p.name}" class="product-cover-image" loading="lazy" />`
-              : `
-              <div class="product-cover-fallback" style="${bottleColorStyle(p.gender)}">
-                <div class="bottle-cap"></div>
-                <div class="bottle-label">${p.shortCode}</div>
+          const imageHtml = hasImage
+            ? `<img src="${p.images[0]}" alt="${p.brand} ${p.name}" loading="lazy" />`
+            : `
+            <div class="product-image-fallback">
+              <div class="product-image-fallback-inner">
+                ${p.shortCode}
               </div>
-            `;
+            </div>
+          `;
 
           return `
           <article class="product-card" data-id="${p.id}">
-            <div class="product-cover">
-              ${coverInner}
-              <div class="product-cover-top">
-                <div class="gender-pill">${genderLabel(p.gender)}</div>
-              </div>
-              <div class="product-cover-bottom">
-                <div class="product-cover-rating">
+            <div class="product-tap-area">
+              <div class="product-image-wrapper">
+                ${imageHtml}
+                <div class="product-image-badge-row">
+                  <span class="gender-pill">${genderLabel(p.gender)}</span>
+                </div>
+                <div class="product-image-rating">
                   <div class="rating-stars" style="--rating-percent:${ratingPercent}%">
                     <span class="base">★★★★★</span>
                   </div>
                   <span class="rating-value">${(p.rating || 5).toFixed(2)}</span>
                 </div>
               </div>
+              <div class="product-info">
+                <div class="product-brand">${p.brand}</div>
+                <div class="product-name">${p.name}</div>
+                <div class="product-meta">
+                  <span>${p.intensity}</span>
+                  ${p.family ? `<span>• ${p.family}</span>` : ""}
+                </div>
+                <div class="product-notes">${p.notes.join(" · ")}</div>
+              </div>
             </div>
-            <div class="product-main">
-              <div class="product-brand">${p.brand}</div>
-              <div class="product-name">${p.name}</div>
-              <div class="product-meta">
-                <span>${p.intensity}</span>
-                ${p.family ? `<span>• ${p.family}</span>` : ""}
-              </div>
-              <div class="product-notes">${p.notes.join(" · ")}</div>
-              <div class="product-description">${p.description}</div>
-              <div class="product-volumes">
-                <div class="product-volumes-label">Объем:</div>
-                <div class="volume-chips">
-                  ${volumeChips}
+            <div class="product-bottom">
+              <div class="product-price-block">
+                <div class="product-price">от ${formatPrice(defaultVolume.price)}</div>
+                <div class="product-price-note">
+                  от ${defaultVolume.label.toLowerCase()}
                 </div>
               </div>
-              <div class="product-bottom">
-                <div class="product-price-block">
-                  <div class="product-price">${formatPrice(
-                    defaultVolume.price
-                  )}</div>
-                  <div class="product-price-note">
-                    Распив от 2 мл + полные флаконы
-                  </div>
-                </div>
-                <button class="add-to-cart" data-id="${p.id}">
-                  <span class="plus">+</span>
-                  <span>В корзину</span>
-                </button>
-              </div>
+              <button
+                class="add-to-cart"
+                data-id="${p.id}"
+                data-volume-ml="${defaultVolume.ml}"
+                data-volume-label="${defaultVolume.label}"
+                data-price="${defaultVolume.price}"
+                type="button"
+              >
+                <span class="plus">+</span>
+                <span>В корзину</span>
+              </button>
             </div>
           </article>
         `;
@@ -1542,20 +1441,6 @@
       updateCart();
     }
 
-    function handleVolumeClick(btn) {
-      const card = btn.closest(".product-card");
-      if (!card) return;
-      const chips = card.querySelectorAll(".volume-chip");
-      chips.forEach((c) => c.classList.remove("active"));
-      btn.classList.add("active");
-
-      const price = Number(btn.dataset.price);
-      const priceEl = card.querySelector(".product-price");
-      if (priceEl) {
-        priceEl.textContent = formatPrice(price);
-      }
-    }
-
     function sendOrder() {
       if (!cart.length) return;
       const order = {
@@ -1575,6 +1460,8 @@
         );
       }
     }
+
+    /* DETAIL */
 
     function renderDetail(product) {
       const hasImages = product.images && product.images.length > 0;
@@ -1648,7 +1535,7 @@
           <div class="detail-notes">${product.notes.join(" · ")}</div>
           <div class="detail-section-title">Описание</div>
           <div class="detail-description">${product.description}</div>
-          <div class="detail-section-title">Выбор объема и заказ</div>
+          <div class="detail-section-title">Объёмы и цены</div>
           <div class="volume-chips detail-volume-chips" data-product-id="${product.id}">
             ${product.volumes
               .map(
@@ -1661,7 +1548,7 @@
                 data-price="${v.price}"
                 type="button"
               >
-                ${cleanVolumeLabel(v.label)}
+                ${cleanVolumeLabel(v.label)} • ${formatPrice(v.price)}
               </button>
             `
               )
@@ -1745,6 +1632,8 @@
       btn.classList.add("active");
     }
 
+    /* LISTENERS */
+
     searchInput.addEventListener("input", (e) => {
       searchQuery = e.target.value.trim();
       renderCatalog();
@@ -1760,24 +1649,12 @@
     });
 
     catalogEl.addEventListener("click", (e) => {
-      const volumeBtn = e.target.closest(".volume-chip");
-      if (volumeBtn) {
-        handleVolumeClick(volumeBtn);
-        return;
-      }
-
       const addBtn = e.target.closest(".add-to-cart");
       if (addBtn) {
-        const card = addBtn.closest(".product-card");
-        if (!card) return;
-        const activeVolume = card.querySelector(".volume-chip.active");
-        if (!activeVolume) return;
-
         const id = addBtn.dataset.id;
-        const volumeMl = activeVolume.dataset.volumeMl;
-        const volumeLabel = activeVolume.dataset.volumeLabel;
-        const price = Number(activeVolume.dataset.price);
-
+        const volumeMl = addBtn.dataset.volumeMl;
+        const volumeLabel = addBtn.dataset.volumeLabel;
+        const price = Number(addBtn.dataset.price);
         addToCart(id, volumeMl, volumeLabel, price);
         animateButton(addBtn);
         return;
