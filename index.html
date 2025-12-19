@@ -40,7 +40,7 @@
       background: #020617;
     }
 
-    /* Общий фон: новая картинка, чуть осветлённая */
+    /* Общий фон */
     body::before {
       content: "";
       position: fixed;
@@ -48,7 +48,7 @@
       background: url("https://i.pinimg.com/1200x/03/b7/e7/03b7e78a6b77fe5d91729fcfea078118.jpg")
         center / cover no-repeat;
       filter: blur(10px) brightness(1.2);
-      opacity: 0.4;
+      opacity: 0.25; /* ~60% прозрачнее, чем раньше */
       transform: scale(1.04);
       z-index: -1;
       pointer-events: none;
@@ -77,9 +77,8 @@
       gap: 8px;
     }
 
-    /* Логотип CR убираем */
     .brand-logo {
-      display: none;
+      display: none; /* прячем CR */
     }
 
     .brand-text {
@@ -88,7 +87,6 @@
       gap: 2px;
     }
 
-    /* Статусный шрифт, капсом, шире */
     .brand-name {
       font-family: "Georgia", "Times New Roman", serif;
       font-size: 24px;
@@ -101,11 +99,12 @@
     }
 
     .brand-subtitle {
-      font-size: 11px;
-      color: var(--text-muted);
-      letter-spacing: 0.08em;
+      font-size: 9px;
+      color: var(--text-main);
+      letter-spacing: 0.06em;
       text-shadow: none;
       text-transform: uppercase;
+      white-space: nowrap;
     }
 
     .header-actions {
@@ -148,7 +147,7 @@
       font-size: 16px;
     }
 
-    /* Тележка делаем белой (выцвечиваем эмодзи) */
+    /* Тележка белая */
     .cart-icon {
       filter: grayscale(1) brightness(2);
     }
@@ -265,7 +264,7 @@
       width: 6px;
       height: 6px;
       border-radius: 999px;
-      background: var(--badge-dark); /* один цвет, как плашка рейтинга */
+      background: var(--badge-dark);
     }
 
     .filter-chip.active {
@@ -359,8 +358,6 @@
       letter-spacing: 0.06em;
     }
 
-    /* Хит + гендер + рейтинг */
-
     .product-image-top-left {
       position: absolute;
       top: 6px;
@@ -414,13 +411,13 @@
       backdrop-filter: blur(8px);
     }
 
-    /* Звёзды: белые, без чёрного контура, с частичным заполнением */
+    /* Белые звёзды без контура */
     .rating-stars {
       position: relative;
       display: inline-block;
       font-size: 10px;
       line-height: 1;
-      color: rgba(249, 250, 251, 0.2); /* фоновые "пустые" звёзды */
+      color: rgba(249, 250, 251, 0.2);
     }
 
     .rating-stars::before {
@@ -429,7 +426,7 @@
       inset: 0;
       width: var(--rating-percent, 100%);
       overflow: hidden;
-      color: #ffffff; /* заполнение */
+      color: #ffffff;
       white-space: nowrap;
     }
 
@@ -862,7 +859,7 @@
     .detail-slider-track {
       display: flex;
       height: 100%;
-      transition: transform 0.3s ease-out;
+      transition: transform 0.3s.ease-out;
     }
 
     .detail-slide {
@@ -1030,8 +1027,8 @@
       max-width: 100%;
       box-shadow: none;
       transition:
-        background 0.16s ease-out,
-        border-color 0.16s ease-out,
+        background 0.16s.ease-out,
+        border-color 0.16s.ease-out,
         color 0.16s.ease-out,
         transform 0.12s.ease-out;
     }
@@ -1061,7 +1058,7 @@
       box-shadow: none;
       outline: none;
       transition:
-        transform 0.16s ease-out,
+        transform 0.16s.ease-out,
         background 0.16s.ease-out;
       white-space: nowrap;
     }
