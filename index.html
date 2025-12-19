@@ -306,14 +306,30 @@
       position: relative;
       width: 100%;
       aspect-ratio: 3 / 4;
-      background: #f9fafb;
       display: flex;
       align-items: flex-end;
       justify-content: center;
       overflow: visible; /* чтобы флакон слегка выходил за фон */
     }
 
+    /* Размытый фон из картинки */
+    .product-image-wrapper::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      border-radius: 26px;
+      background: url("https://i.pinimg.com/1200x/02/5b/41/025b41dde121e40dbdcbf1097dceeb06.jpg")
+        center/cover no-repeat;
+      filter: blur(14px);
+      opacity: 0.55; /* чуть прозрачнее */
+      transform: scale(1.08);
+      transform-origin: center;
+      z-index: 0;
+    }
+
     .product-image-wrapper img {
+      position: relative;
+      z-index: 1;
       width: 100%;
       height: auto;
       object-fit: contain;
@@ -323,6 +339,8 @@
     }
 
     .product-image-fallback {
+      position: relative;
+      z-index: 1;
       width: 88%;
       height: 88%;
       border-radius: 18px;
@@ -353,6 +371,7 @@
       justify-content: space-between;
       align-items: flex-start;
       pointer-events: none;
+      z-index: 2;
     }
 
     .gender-pill {
@@ -381,6 +400,7 @@
       color: #f9fafb;
       font-size: 10px;
       backdrop-filter: blur(8px);
+      z-index: 2;
     }
 
     .rating-stars {
@@ -1193,7 +1213,7 @@
           { ml: 100, label: "100 мл", price: 45900 }
         ],
         thumb:
-          "https://allwebs.ru/images/2025/12/19/00b020d4b73d126b0b1f660268a2e1be.png",
+          "https://allwebs.ru/images/2025/12/19/cb31f9cec509f1c888db9bf302efd11b.png",
         images: [
           "https://i.pinimg.com/736x/8e/98/d2/8e98d27ca351b289ec55fee9c4464afc.jpg"
         ],
@@ -1218,7 +1238,7 @@
           { ml: 100, label: "100 мл", price: 15900 }
         ],
         thumb:
-          "https://allwebs.ru/images/2025/12/19/fe4f33e58a2bc827677d7150f45f976e.png",
+          "https://allwebs.ru/images/2025/12/19/471c379b1fd15cc9d4023b881e084519.png",
         images: [
           "https://i.pinimg.com/1200x/5a/00/f1/5a00f1894fea82bca73310361dd85803.jpg"
         ],
@@ -1243,7 +1263,7 @@
           { ml: 100, label: "100 мл", price: 33900 }
         ],
         thumb:
-          "https://allwebs.ru/images/2025/12/19/f896f5a02910c1f9a9aeeb375a936bda.png",
+          "https://allwebs.ru/images/2025/12/19/628cc17e63444faf8267e89c80043c3a.png",
         images: [
           "https://i.pinimg.com/1200x/64/47/b4/6447b48b83183d20df7006d3b2fc1cf0.jpg"
         ],
@@ -1268,7 +1288,7 @@
           { ml: 100, label: "100 мл", price: 18900 }
         ],
         thumb:
-          "https://radika1.link/2025/12/19/f3fb66ddb801929ce1f6096a9fdc3bbd-no-bg-preview-carve.photosf958161f0af997e0.png",
+          "https://allwebs.ru/images/2025/12/19/3e229cb656eddb93f9b6b287e8b5feee.png",
         images: [
           "https://i.pinimg.com/1200x/cc/7a/e2/cc7ae220514619cc890f7024c9c4a912.jpg"
         ],
@@ -1293,7 +1313,7 @@
           { ml: 90, label: "90 мл", price: 13900 }
         ],
         thumb:
-          "https://allwebs.ru/images/2025/12/19/29bc897aefc83a5ae62216ea66047e9e.png",
+          "https://allwebs.ru/images/2025/12/19/022f8a671a9af4425650ccd63469b292.png",
         images: [
           "https://i.pinimg.com/1200x/7b/ef/75/7bef75282c9bcc0ef9c2c3f0acafe60d.jpg"
         ],
@@ -1317,6 +1337,8 @@
           { ml: 50, label: "50 мл", price: 9400 },
           { ml: 100, label: "100 мл", price: 12900 }
         ],
+        thumb:
+          "https://allwebs.ru/images/2025/12/19/e91e21ba47123cf4b9a0c1536b9d06b7.png",
         images: [
           "https://i.pinimg.com/1200x/b4/33/45/b43345a4ab7db03eba9d50e6c0bd46dc.jpg"
         ],
@@ -1340,6 +1362,8 @@
           { ml: 60, label: "60 мл", price: 9900 },
           { ml: 100, label: "100 мл", price: 13900 }
         ],
+        thumb:
+          "https://allwebs.ru/images/2025/12/19/526cd212adf3e57f480fb554da10730b.png",
         images: [
           "https://i.pinimg.com/736x/66/c2/48/66c2486497706a7db7fb3cd9089bea11.jpg"
         ],
@@ -1363,6 +1387,8 @@
           { ml: 50, label: "50 мл", price: 12400 },
           { ml: 100, label: "100 мл", price: 16900 }
         ],
+        thumb:
+          "https://allwebs.ru/images/2025/12/19/e2b4f11136a84c1175e26533d53dbf6f.png",
         images: [
           "https://i.pinimg.com/1200x/33/69/dc/3369dcddf4e42b1ec7d652d1dfaf6c18.jpg"
         ],
@@ -1386,6 +1412,8 @@
           { ml: 50, label: "50 мл", price: 8900 },
           { ml: 100, label: "100 мл", price: 11900 }
         ],
+        thumb:
+          "https://allwebs.ru/images/2025/12/19/3e42021f6f115b9f7a42808997693801.png",
         images: [
           "https://i.pinimg.com/1200x/b2/a3/50/b2a3508967fcd06515741cab36161e9f.jpg"
         ],
@@ -1978,7 +2006,7 @@
     });
 
     detailPanel.addEventListener("click", (e) => {
-      // клик по затемнённому фону — закрываем детальную карточку
+      // клик по затемнённому фону — закрыть
       if (e.target === detailPanel) {
         closeDetail();
         return;
