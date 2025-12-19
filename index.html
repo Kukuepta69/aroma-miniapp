@@ -39,7 +39,7 @@
       background: #020617;
     }
 
-    /* Общий фон: размытая картинка */
+    /* Общий фон: размытая картинка, более прозрачный */
     body::before {
       content: "";
       position: fixed;
@@ -47,7 +47,7 @@
       background: url("https://allwebs.ru/images/2025/12/19/35ff8904415094e208ac684f9857d339.jpg")
         center / cover no-repeat;
       filter: blur(10px);
-      opacity: 0.7;
+      opacity: 0.35; /* было 0.7, стало в 2 раза прозрачнее */
       transform: scale(1.04);
       z-index: -1;
       pointer-events: none;
@@ -73,28 +73,12 @@
     .brand {
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
+    /* Убираем логотип CR */
     .brand-logo {
-      width: 40px;
-      height: 40px;
-      border-radius: 999px;
-      background: conic-gradient(
-        from 220deg,
-        #f7c29c,
-        #fbe1c5,
-        #f8d2dc,
-        #f4b9c8,
-        #f8e9d5
-      );
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 700;
-      font-size: 18px;
-      color: #2b1813;
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.35);
+      display: none;
     }
 
     .brand-text {
@@ -103,19 +87,20 @@
       gap: 2px;
     }
 
+    /* Цвет как в карточках (тёмный), без светлого свечения */
     .brand-name {
       font-size: 18px;
       font-weight: 700;
       letter-spacing: 0.04em;
-      color: #f9fafb;
-      text-shadow: 0 2px 8px rgba(15, 23, 42, 0.9);
+      color: var(--text-main);
+      text-shadow: none;
     }
 
     .brand-subtitle {
       font-size: 11px;
-      color: #e5e7eb;
+      color: var(--text-muted);
       letter-spacing: 0.02em;
-      text-shadow: 0 1px 3px rgba(15, 23, 42, 0.9);
+      text-shadow: none;
     }
 
     .header-actions {
@@ -262,8 +247,8 @@
       align-items: center;
       gap: 4px;
       box-shadow: none;
-      transition: background 0.15s ease-out, border-color 0.15s.ease-out,
-        color 0.15s.ease-out;
+      transition: background 0.15s ease-out, border-color 0.15s ease-out,
+        color 0.15s ease-out;
     }
 
     .filter-chip span.dot {
@@ -372,6 +357,7 @@
       z-index: 2;
     }
 
+    /* Огонёк: белый с чёрной обводкой, без фона */
     .hit-badge {
       font-size: 16px;
       line-height: 1;
@@ -379,13 +365,15 @@
       background: transparent;
       border: none;
       padding: 0;
+      color: #ffffff;
+      -webkit-text-stroke: 1px #000000;
+      text-stroke: 1px #000000;
     }
 
     .product-image-top-right {
       position: absolute;
       right: 6px;
-      bottom: 6px; /* правый нижний угол */
-      top: auto;
+      bottom: 6px;
       z-index: 2;
       display: flex;
       flex-direction: column;
@@ -417,12 +405,15 @@
       backdrop-filter: blur(8px);
     }
 
+    /* Звёзды: белые с чёрной обводкой, с частичным заполнением */
     .rating-stars {
       position: relative;
       display: inline-block;
       font-size: 10px;
       line-height: 1;
-      color: rgba(249, 250, 251, 0.25);
+      color: transparent;
+      -webkit-text-stroke: 1px #000000; /* контур для "пустых" звёзд */
+      text-stroke: 1px #000000;
     }
 
     .rating-stars::before {
@@ -431,7 +422,9 @@
       inset: 0;
       width: var(--rating-percent, 100%);
       overflow: hidden;
-      color: #facc15;
+      color: #ffffff; /* заполнение белым */
+      -webkit-text-stroke: 1px #000000; /* контур у заполненной части */
+      text-stroke: 1px #000000;
       white-space: nowrap;
     }
 
@@ -879,7 +872,6 @@
       display: block;
     }
 
-    /* Избранное в деталке, на фото */
     .detail-fav-btn {
       position: absolute;
       right: 8px;
@@ -1007,7 +999,6 @@
       line-height: 1.5;
     }
 
-    /* Кнопки объёма */
     .detail-volume-chips {
       margin-top: 8px;
       display: flex;
@@ -1037,7 +1028,7 @@
         background 0.16s ease-out,
         border-color 0.16s ease-out,
         color 0.16s ease-out,
-        transform 0.12s.ease-out;
+        transform 0.12s ease-out;
     }
 
     .volume-chip.active {
@@ -1126,7 +1117,7 @@
       text-align: center;
       z-index: 80;
       opacity: 0;
-      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+      transition: opacity 0.2s ease-out, transform 0.2s.ease-out;
       pointer-events: none;
     }
 
