@@ -310,12 +310,13 @@
       border-radius: var(--radius-lg);
       border: 1px solid rgba(229, 231, 235, 0.9);
       box-shadow: var(--shadow-soft);
-      overflow: hidden;
+      /* важно: не обрезаем тени и флаконы */
+      overflow: visible;
       display: flex;
       flex-direction: column;
       cursor: pointer;
       transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-        border-color 0.12s.ease-out;
+        border-color 0.12s ease-out;
       backdrop-filter: blur(10px);
     }
 
@@ -349,8 +350,8 @@
       height: auto;
       object-fit: contain;
       transform-origin: bottom center;
-      transform: scale(1.12);
-      filter: drop-shadow(0 18px 32px rgba(15, 23, 42, 0.6));
+      transform: scale(1.08);
+      filter: drop-shadow(0 16px 26px rgba(15, 23, 42, 0.55));
     }
 
     .product-image-fallback {
@@ -858,7 +859,7 @@
     .detail-slider-viewport {
       overflow: hidden;
       border-radius: 18px;
-      aspect-ratio: 16 / 9; /* горизонтальный формат */
+      aspect-ratio: 16 / 9;
       background: #f3f4f6;
     }
 
@@ -876,7 +877,7 @@
     .detail-slide img {
       width: 100%;
       height: 100%;
-      object-fit: cover; /* все кадры одного визуального размера */
+      object-fit: cover;
       display: block;
     }
 
@@ -990,7 +991,7 @@
     }
 
     .detail-volume-chips .volume-chip {
-      padding: 6px 12px;
+      padding: 5px 11px; /* чуть компактнее, чем было */
       font-size: 12px;
       border-width: 1px;
     }
@@ -1006,12 +1007,12 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       box-shadow: 0 10px 26px rgba(0, 0, 0, 0.4);
       outline: none;
       transition:
         transform 0.16s ease-out,
-        box-shadow 0.16s.ease-out,
+        box-shadow 0.16s ease-out,
         background 0.16s.ease-out;
       white-space: nowrap;
     }
@@ -1045,12 +1046,21 @@
       line-height: 1;
     }
 
-    .add-to-cart.detail-add-to-cart {
+    .detail-add-to-cart {
       margin-top: 12px;
-      padding: 10px 20px;
+      padding: 12px 20px;
       font-size: 14px;
       width: 100%;
       justify-content: center;
+    }
+
+    .detail-add-to-cart .btn-text {
+      font-size: 14px;
+    }
+
+    .detail-add-to-cart .btn-price {
+      font-size: 14px;
+      font-weight: 600;
     }
 
     .volume-chip {
@@ -1238,31 +1248,6 @@
         shortCode: "BR540"
       },
       {
-        id: "molecule-01",
-        brand: "Escentric Molecules",
-        name: "Molecule 01",
-        gender: "unisex",
-        intensity: "Туалетная вода",
-        family: "Древесно-мускусный",
-        notes: ["Iso E Super"],
-        description:
-          "Минималистичный «эффект чистой кожи». Аромат, который ощущают больше окружающие, чем вы сами. Универсальный, подходит на каждый день.",
-        volumes: [
-          { ml: 2, label: "2 мл (распив)", price: 900 },
-          { ml: 5, label: "5 мл (распив)", price: 1900 },
-          { ml: 10, label: "10 мл (распив)", price: 3400 },
-          { ml: 50, label: "50 мл", price: 11400 },
-          { ml: 100, label: "100 мл", price: 15900 }
-        ],
-        thumb:
-          "https://allwebs.ru/images/2025/12/19/471c379b1fd15cc9d4023b881e084519.png",
-        images: [
-          "https://i.pinimg.com/1200x/5a/00/f1/5a00f1894fea82bca73310361dd85803.jpg"
-        ],
-        rating: 4.87,
-        shortCode: "M01"
-      },
-      {
         id: "oud-wood",
         brand: "Tom Ford",
         name: "Oud Wood",
@@ -1286,6 +1271,31 @@
         ],
         rating: 4.92,
         shortCode: "OW"
+      },
+      {
+        id: "molecule-01",
+        brand: "Escentric Molecules",
+        name: "Molecule 01",
+        gender: "unisex",
+        intensity: "Туалетная вода",
+        family: "Древесно-мускусный",
+        notes: ["Iso E Super"],
+        description:
+          "Минималистичный «эффект чистой кожи». Аромат, который ощущают больше окружающие, чем вы сами. Универсальный, подходит на каждый день.",
+        volumes: [
+          { ml: 2, label: "2 мл (распив)", price: 900 },
+          { ml: 5, label: "5 мл (распив)", price: 1900 },
+          { ml: 10, label: "10 мл (распив)", price: 3400 },
+          { ml: 50, label: "50 мл", price: 11400 },
+          { ml: 100, label: "100 мл", price: 15900 }
+        ],
+        thumb:
+          "https://allwebs.ru/images/2025/12/19/471c379b1fd15cc9d4023b881e084519.png",
+        images: [
+          "https://i.pinimg.com/1200x/5a/00/f1/5a00f1894fea82bca73310361dd85803.jpg"
+        ],
+        rating: 4.87,
+        shortCode: "M01"
       },
       {
         id: "coco-mademoiselle",
@@ -1833,6 +1843,8 @@
         ? `<span>• ★ ${product.rating.toFixed(2)}/5</span>`
         : "";
 
+      const firstVolume = product.volumes[0];
+
       detailBody.innerHTML = `
         ${sliderHtml}
         <div class="detail-text">
@@ -1861,15 +1873,23 @@
                 data-price="${v.price}"
                 type="button"
               >
-                ${cleanVolumeLabel(v.label)} • ${formatPrice(v.price)}
+                ${cleanVolumeLabel(v.label)}
               </button>
             `
               )
               .join("")}
           </div>
-          <button class="add-to-cart detail-add-to-cart" data-id="${product.id}" type="button">
+          <button
+            class="add-to-cart detail-add-to-cart"
+            data-id="${product.id}"
+            data-volume-ml="${firstVolume.ml}"
+            data-volume-label="${firstVolume.label}"
+            data-price="${firstVolume.price}"
+            type="button"
+          >
             <span class="plus">+</span>
-            <span>В корзину</span>
+            <span class="btn-text">В корзину · ${cleanVolumeLabel(firstVolume.label)}</span>
+            <span class="btn-price">${formatPrice(firstVolume.price)}</span>
           </button>
         </div>
       `;
@@ -1895,7 +1915,7 @@
       if (images.length > 1) {
         sliderIntervalId = setInterval(() => {
           changeSlide(1);
-        }, 5000); // автолистание каждые 5 секунд
+        }, 5000);
       }
     }
 
@@ -2036,6 +2056,31 @@
         const chips = container.querySelectorAll(".volume-chip");
         chips.forEach((c) => c.classList.remove("active"));
         volumeBtnDetail.classList.add("active");
+
+        // обновляем кнопку "В корзину" под выбранный объём
+        const productId = container.dataset.productId;
+        const addBtn = detailBody.querySelector(
+          '.detail-add-to-cart[data-id="' + productId + '"]'
+        );
+        if (addBtn) {
+          const volumeMl = volumeBtnDetail.dataset.volumeMl;
+          const volumeLabel = volumeBtnDetail.dataset.volumeLabel;
+          const price = Number(volumeBtnDetail.dataset.price);
+
+          addBtn.dataset.volumeMl = volumeMl;
+          addBtn.dataset.volumeLabel = volumeLabel;
+          addBtn.dataset.price = price;
+
+          const btnText = addBtn.querySelector(".btn-text");
+          const btnPrice = addBtn.querySelector(".btn-price");
+          if (btnText) {
+            btnText.textContent =
+              "В корзину · " + cleanVolumeLabel(volumeLabel);
+          }
+          if (btnPrice) {
+            btnPrice.textContent = formatPrice(price);
+          }
+        }
         return;
       }
 
