@@ -39,7 +39,7 @@
       color: var(--text-main);
       position: relative;
       overflow-x: hidden;
-      background: #020617; /* тёмный фон как запасной */
+      background: #020617; /* запасной тёмный фон */
     }
 
     /* Общий фон: размытая картинка */
@@ -50,7 +50,7 @@
       background: url("https://allwebs.ru/images/2025/12/19/35ff8904415094e208ac684f9857d339.jpg")
         center / cover no-repeat;
       filter: blur(10px);
-      opacity: 0.7; /* немного прозрачнее */
+      opacity: 0.7;
       transform: scale(1.04);
       z-index: -1;
       pointer-events: none;
@@ -315,7 +315,7 @@
       flex-direction: column;
       cursor: pointer;
       transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-        border-color 0.12s ease-out;
+        border-color 0.12s.ease-out;
       backdrop-filter: blur(10px);
     }
 
@@ -338,8 +338,8 @@
       display: flex;
       align-items: flex-end;
       justify-content: center;
-      overflow: visible; /* флакон может чуть выходить за блок */
-      background: transparent; /* фон за духами убран */
+      overflow: visible;
+      background: transparent;
     }
 
     .product-image-wrapper img {
@@ -854,10 +854,11 @@
       margin-bottom: 12px;
     }
 
+    /* Горизонтальный слайдер, единое соотношение сторон */
     .detail-slider-viewport {
       overflow: hidden;
       border-radius: 18px;
-      aspect-ratio: 3 / 4;
+      aspect-ratio: 16 / 9; /* горизонтальный формат */
       background: #f3f4f6;
     }
 
@@ -875,7 +876,7 @@
     .detail-slide img {
       width: 100%;
       height: 100%;
-      object-fit: cover;
+      object-fit: cover; /* все кадры одного визуального размера */
       display: block;
     }
 
@@ -1010,8 +1011,8 @@
       outline: none;
       transition:
         transform 0.16s ease-out,
-        box-shadow 0.16s ease-out,
-        background 0.16s ease-out;
+        box-shadow 0.16s.ease-out,
+        background 0.16s.ease-out;
       white-space: nowrap;
     }
 
@@ -1229,7 +1230,9 @@
         thumb:
           "https://allwebs.ru/images/2025/12/19/cb31f9cec509f1c888db9bf302efd11b.png",
         images: [
-          "https://i.pinimg.com/736x/8e/98/d2/8e98d27ca351b289ec55fee9c4464afc.jpg"
+          "https://allwebs.ru/images/2025/12/19/c7af40904dcbec474f38af8253fa9988.jpg",
+          "https://allwebs.ru/images/2025/12/19/108eb0c5a10f18de52a1ddb4bd14f3ac.png",
+          "https://allwebs.ru/images/2025/12/19/0b8b8f7e672c997018af708a94bf14aa.png"
         ],
         rating: 4.98,
         shortCode: "BR540"
@@ -1379,7 +1382,9 @@
         thumb:
           "https://allwebs.ru/images/2025/12/19/526cd212adf3e57f480fb554da10730b.png",
         images: [
-          "https://i.pinimg.com/736x/66/c2/48/66c2486497706a7db7fb3cd9089bea11.jpg"
+          "https://allwebs.ru/images/2025/12/19/d13a007d857b9946d38fae718d954e87.jpeg",
+          "https://allwebs.ru/images/2025/12/19/2b672cf357a1f9e3989849e7ebd9fe4b.png",
+          "https://allwebs.ru/images/2025/12/19/cf62f73f879cd629a581d735a15b9c07.jpeg"
         ],
         rating: 4.9,
         shortCode: "SAUV"
@@ -1890,7 +1895,7 @@
       if (images.length > 1) {
         sliderIntervalId = setInterval(() => {
           changeSlide(1);
-        }, 5000);
+        }, 5000); // автолистание каждые 5 секунд
       }
     }
 
