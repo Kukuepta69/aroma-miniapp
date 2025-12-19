@@ -138,7 +138,7 @@
       font-size: 13px;
       user-select: none;
       transition: background var(--transition-fast), transform 0.1s ease-out,
-        box-shadow 0.12s ease-out, border-color 0.12s.ease-out;
+        box-shadow 0.12s ease-out, border-color 0.12s ease-out;
     }
 
     .fav-button {
@@ -274,7 +274,7 @@
       align-items: center;
       gap: 4px;
       transition: background 0.15s ease-out, border-color 0.15s ease-out,
-        color 0.15s ease-out, box-shadow 0.15s ease-out;
+        color 0.15s ease-out, box-shadow 0.15s.ease-out;
       box-shadow: 0 4px 14px rgba(15, 23, 42, 0.35);
     }
 
@@ -315,7 +315,7 @@
       flex-direction: column;
       cursor: pointer;
       transition: transform 0.12s ease-out, box-shadow 0.12s ease-out,
-        border-color 0.12s ease-out;
+        border-color 0.12s.ease-out;
       backdrop-filter: blur(10px);
     }
 
@@ -982,24 +982,30 @@
       line-height: 1.5;
     }
 
-    /* Сетка для объёмов — аккуратное выравнивание по ширине */
+    /* Объёмы: один ряд с горизонтальным скроллом */
     .detail-volume-chips {
       margin-top: 10px;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-      gap: 10px;
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
     }
 
-    /* Базовый вид чипов объёма — под цвет кнопки "В корзину" */
+    .detail-volume-chips::-webkit-scrollbar {
+      height: 3px;
+    }
+
+    .detail-volume-chips::-webkit-scrollbar-thumb {
+      background: rgba(148, 163, 184, 0.7);
+      border-radius: 999px;
+    }
+
+    /* Кнопки объёма: цвет как у текста (тёмный фон, белый текст) */
     .volume-chip {
       border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
+      border: 1px solid #111827;
       padding: 8px 16px;
-      background: linear-gradient(
-        135deg,
-        rgba(15, 23, 42, 0.96),
-        rgba(30, 64, 175, 0.9)
-      );
+      background: #111827;
       color: #f9fafb;
       font-size: 13px;
       cursor: pointer;
@@ -1008,60 +1014,50 @@
       align-items: center;
       justify-content: center;
       gap: 4px;
+      white-space: nowrap;
+      flex: 0 0 auto;
       transition:
         background 0.16s ease-out,
         border-color 0.16s ease-out,
         color 0.16s ease-out,
         transform 0.12s ease-out,
         box-shadow 0.12s ease-out;
-      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.65);
-      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.55);
     }
 
-    .detail-volume-chips .volume-chip {
-      /* уже учтено выше общими паддингами и размером шрифта */
-    }
-
-    /* Активный объём — белая "таблетка" с чётким контуром по всей кнопке */
+    /* Активный объём — белая кнопка с тёмным контуром */
     .volume-chip.active {
       background: #ffffff;
       color: #111827;
       border-color: #111827;
-      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.4);
+      box-shadow: 0 6px 16px rgba(15, 23, 42, 0.35);
     }
 
-    /* Отклик по нажатию */
     .volume-chip:active {
       transform: scale(0.97);
       box-shadow: 0 3px 10px rgba(15, 23, 42, 0.4);
     }
 
-    /* Кнопка "В корзину" в стиле liquid glass */
+    /* Кнопка "В корзину" под цвет текста */
     .add-to-cart {
       border-radius: 999px;
       padding: 9px 18px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
+      border: none;
       font-size: 13px;
       font-weight: 500;
-      background: linear-gradient(
-        135deg,
-        rgba(15, 23, 42, 0.98),
-        rgba(30, 64, 175, 0.95)
-      );
+      background: #111827;
       color: #f9fafb;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.85);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.9);
       outline: none;
       transition:
-        transform 0.16s.ease-out,
-        box-shadow 0.16s.ease-out,
-        background 0.16s.ease-out,
-        border-color 0.16s.ease-out;
+        transform 0.16s ease-out,
+        box-shadow 0.16s ease-out,
+        background 0.16s.ease-out;
       white-space: nowrap;
-      backdrop-filter: blur(14px);
     }
 
     .add-to-cart:active {
@@ -1070,7 +1066,7 @@
     }
 
     .add-to-cart.animate {
-      animation: add-bump 0.18s.ease-out;
+      animation: add-bump 0.18s ease-out;
     }
 
     @keyframes add-bump {
@@ -1124,7 +1120,7 @@
       text-align: center;
       z-index: 80;
       opacity: 0;
-      transition: opacity 0.2s ease-out, transform 0.2s ease-out;
+      transition: opacity 0.2s ease-out, transform 0.2s.ease-out;
       pointer-events: none;
     }
 
