@@ -18,11 +18,7 @@
       --text-muted: #6b7280;
       --border-subtle: #e5e7eb;
       --accent: #111827;
-      --accent-soft: #f3f4f6;
-      --accent-pill: #111827;
-      --accent-pill-text: #f9fafb;
       --price: #111827;
-      --shadow-card: 0 16px 40px rgba(15, 23, 42, 0.18);
     }
 
     * {
@@ -68,18 +64,18 @@
       border-radius: 999px;
       background: conic-gradient(
         from 220deg,
-        #f97316,
-        #fed7aa,
-        #fee2e2,
-        #fecaca,
-        #fee2e2
+        #f7c29c,
+        #fbe1c5,
+        #f8d2dc,
+        #f4b9c8,
+        #f8e9d5
       );
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 700;
       font-size: 18px;
-      color: #111827;
+      color: #2b1813;
       box-shadow: 0 10px 25px rgba(15, 23, 42, 0.25);
     }
 
@@ -102,20 +98,42 @@
       letter-spacing: 0.02em;
     }
 
+    .header-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fav-button,
     .cart-button {
       display: inline-flex;
       align-items: center;
       gap: 6px;
       padding: 6px 10px;
       border-radius: 999px;
-      background: #111827;
-      color: #f9fafb;
-      border: none;
       cursor: pointer;
       font-size: 13px;
       user-select: none;
       transition: background var(--transition-fast), transform 0.1s ease-out,
-        box-shadow 0.12s ease-out;
+        box-shadow 0.12s ease-out, border-color 0.12s ease-out;
+    }
+
+    .fav-button {
+      background: #ffffff;
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      box-shadow: 0 4px 10px rgba(15, 23, 42, 0.08);
+    }
+
+    .fav-button:active {
+      transform: scale(0.96);
+      box-shadow: 0 2px 6px rgba(15, 23, 42, 0.15);
+    }
+
+    .cart-button {
+      background: #111827;
+      border: none;
+      color: #f9fafb;
       box-shadow: 0 10px 22px rgba(15, 23, 42, 0.35);
     }
 
@@ -124,21 +142,31 @@
       box-shadow: 0 4px 12px rgba(15, 23, 42, 0.45);
     }
 
+    .fav-icon,
     .cart-icon {
       font-size: 16px;
     }
 
+    .fav-count,
     .cart-count {
       min-width: 18px;
       height: 18px;
       border-radius: 999px;
-      background: #f9fafb;
-      color: #111827;
       font-size: 11px;
       display: flex;
       align-items: center;
       justify-content: center;
       font-weight: 600;
+    }
+
+    .fav-count {
+      background: #f3f4f6;
+      color: #111827;
+    }
+
+    .cart-count {
+      background: #f9fafb;
+      color: #111827;
     }
 
     /* DELIVERY BANNER */
@@ -278,23 +306,25 @@
       position: relative;
       width: 100%;
       aspect-ratio: 3 / 4;
-      overflow: hidden;
-      background: #f3f4f6;
-    }
-
-    .product-image-wrapper img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-    }
-
-    .product-image-fallback {
-      width: 100%;
-      height: 100%;
+      background: #f9fafb;
       display: flex;
       align-items: flex-end;
       justify-content: center;
+      overflow: hidden;
+    }
+
+    .product-image-wrapper img {
+      width: 88%;
+      height: auto;
+      object-fit: contain;
+      transform: translateY(4%);
+      filter: drop-shadow(0 10px 18px rgba(15, 23, 42, 0.2));
+    }
+
+    .product-image-fallback {
+      width: 88%;
+      height: 88%;
+      border-radius: 18px;
       background: conic-gradient(
         from 200deg,
         #f97316,
@@ -303,13 +333,6 @@
         #fecaca,
         #fee2e2
       );
-    }
-
-    .product-image-fallback-inner {
-      width: 70%;
-      height: 60%;
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.2);
       display: flex;
       align-items: center;
       justify-content: center;
@@ -318,7 +341,6 @@
       font-weight: 600;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      backdrop-filter: blur(10px);
     }
 
     .product-image-badge-row {
@@ -387,7 +409,7 @@
     }
 
     .product-info {
-      padding: 8px 8px 6px;
+      padding: 8px 8px 4px;
       display: flex;
       flex-direction: column;
       gap: 2px;
@@ -439,7 +461,7 @@
 
     .product-price {
       font-weight: 600;
-      font-size: 13px;
+      font-size: 14px;
       color: var(--price);
     }
 
@@ -448,45 +470,35 @@
       color: var(--text-muted);
     }
 
-    .add-to-cart {
+    .favorite-toggle {
+      width: 26px;
+      height: 26px;
       border-radius: 999px;
-      padding: 6px 10px;
-      border: none;
-      font-size: 12px;
-      font-weight: 500;
-      background: #111827;
-      color: #f9fafb;
-      cursor: pointer;
-      display: inline-flex;
+      border: 1px solid var(--border-subtle);
+      background: #f9fafb;
+      color: #9ca3af;
+      display: flex;
       align-items: center;
-      gap: 4px;
-      box-shadow: 0 8px 20px rgba(15, 23, 42, 0.35);
+      justify-content: center;
+      cursor: pointer;
+      padding: 0;
       outline: none;
-      transition:
-        transform 0.16s ease-out,
-        box-shadow 0.16s ease-out,
-        background 0.16s ease-out;
-      white-space: nowrap;
+      transition: background 0.16s, color 0.16s, border-color 0.16s, transform 0.12s;
     }
 
-    .add-to-cart:active {
-      transform: scale(0.96);
-      box-shadow: 0 4px 12px rgba(15, 23, 42, 0.45);
+    .favorite-toggle:active {
+      transform: scale(0.92);
     }
 
-    .add-to-cart span.plus {
+    .favorite-toggle.active {
+      background: #111827;
+      border-color: #111827;
+      color: #fee2e2;
+    }
+
+    .favorite-icon {
       font-size: 14px;
       line-height: 1;
-    }
-
-    .add-to-cart.animate {
-      animation: button-bounce 0.22s cubic-bezier(0.22, 0.7, 0.35, 1);
-    }
-
-    @keyframes button-bounce {
-      0% { transform: translateY(0) scale(1); }
-      30% { transform: translateY(-1px) scale(1.04); }
-      100% { transform: translateY(0) scale(1); }
     }
 
     /* CART SHEET */
@@ -642,6 +654,100 @@
       font-size: 13px;
       color: var(--text-muted);
       padding: 10px 2px;
+    }
+
+    /* FAVORITES SHEET */
+
+    .fav-panel {
+      position: fixed;
+      left: 0;
+      right: 0;
+      bottom: -100%;
+      background: #ffffff;
+      border-radius: 18px 18px 0 0;
+      box-shadow: 0 -18px 45px rgba(15, 23, 42, 0.25);
+      padding: 10px 16px 16px;
+      max-width: 640px;
+      margin: 0 auto;
+      transition: bottom 0.26s cubic-bezier(0.25, 0.8, 0.25, 1);
+      z-index: 50;
+      border-top: 1px solid var(--border-subtle);
+    }
+
+    .fav-panel.open {
+      bottom: 0;
+    }
+
+    .fav-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .fav-close {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 12px;
+      cursor: pointer;
+      padding: 4px 0;
+    }
+
+    .fav-items {
+      max-height: 230px;
+      overflow-y: auto;
+      padding-right: 4px;
+      margin-bottom: 6px;
+    }
+
+    .fav-items::-webkit-scrollbar {
+      width: 3px;
+    }
+
+    .fav-items::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.5);
+      border-radius: 999px;
+    }
+
+    .fav-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border-subtle);
+      gap: 8px;
+      cursor: pointer;
+    }
+
+    .fav-item:last-child {
+      border-bottom: none;
+    }
+
+    .fav-item-main {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .fav-item-name {
+      font-size: 13px;
+      font-weight: 500;
+    }
+
+    .fav-item-meta {
+      font-size: 11px;
+      color: var(--text-muted);
+    }
+
+    .fav-remove {
+      border: none;
+      background: transparent;
+      color: var(--text-muted);
+      font-size: 16px;
+      cursor: pointer;
+      padding: 0 4px;
     }
 
     /* DETAIL SHEET */
@@ -852,12 +958,39 @@
       border-width: 1px;
     }
 
-    .detail-add-to-cart {
+    .add-to-cart.detail-add-to-cart {
       margin-top: 12px;
       padding: 10px 20px;
       font-size: 14px;
       width: 100%;
       justify-content: center;
+    }
+
+    .volume-chip {
+      border-radius: 999px;
+      border: 1px solid rgba(250, 218, 189, 0.8);
+      padding: 3px 8px;
+      background: rgba(29, 17, 18, 0.9);
+      color: #f9fafb;
+      font-size: 11px;
+      cursor: pointer;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      transition:
+        background 0.16s ease-out,
+        border-color 0.16s ease-out,
+        color 0.16s ease-out,
+        transform 0.12s ease-out,
+        box-shadow 0.12s ease-out;
+    }
+
+    .volume-chip.active {
+      background: linear-gradient(135deg, #ffd4a8, #ffeaf0);
+      color: #2a1713;
+      border-color: transparent;
+      box-shadow: 0 6px 14px rgba(0, 0, 0, 0.5);
     }
 
     .toast {
@@ -894,10 +1027,16 @@
           <div class="brand-subtitle">мини‑бутик оригинальной парфюмерии</div>
         </div>
       </div>
-      <button class="cart-button" id="cartToggle">
-        <span class="cart-icon">🛒</span>
-        <span class="cart-count" id="cartCount">0</span>
-      </button>
+      <div class="header-actions">
+        <button class="fav-button" id="favToggle" type="button">
+          <span class="fav-icon">♡</span>
+          <span class="fav-count" id="favCount">0</span>
+        </button>
+        <button class="cart-button" id="cartToggle" type="button">
+          <span class="cart-icon">🛒</span>
+          <span class="cart-count" id="cartCount">0</span>
+        </button>
+      </div>
     </header>
 
     <div class="delivery-banner">
@@ -951,11 +1090,20 @@
       </div>
     </div>
 
+    <!-- FAVORITES SHEET -->
+    <div class="fav-panel" id="favPanel">
+      <div class="fav-header">
+        <span>Избранное</span>
+        <button class="fav-close" id="favClose">Закрыть</button>
+      </div>
+      <div class="fav-items" id="favItems"></div>
+    </div>
+
     <!-- DETAIL SHEET -->
     <div class="detail-panel" id="detailPanel">
       <div class="detail-inner">
         <div class="detail-header">
-          <button class="detail-back" id="detailBack">
+          <button class="detail-back" id="detailBack" type="button">
             <span class="icon">←</span>
             <span>Каталог</span>
           </button>
@@ -992,6 +1140,9 @@
           { ml: 50, label: "50 мл", price: 32900 },
           { ml: 100, label: "100 мл", price: 45900 }
         ],
+        // превью без фона
+        thumb:
+          "https://3.downloader.disk.yandex.ru/preview/fd048b8c8ecfbd8867a91ee14d2d87b8891a9e75e6020267f808f0c69abbafab/inf/MOKDdpcsRgTGOfTKpFVxyvGUERIcxHnpIopTzO_0WIU1_8tYoJWr9G-eTAdjqGjHpUTSK8NslUPv7MxzXOs1-Q%3D%3D?uid=253895014&filename=b7b46a89a968f9027ddd448861fc9776-no-bg-preview%20%28carve.photos%29.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=253895014&tknv=v3&size=2124x1564",
         images: [
           "https://i.pinimg.com/736x/8e/98/d2/8e98d27ca351b289ec55fee9c4464afc.jpg"
         ],
@@ -1015,6 +1166,8 @@
           { ml: 50, label: "50 мл", price: 11400 },
           { ml: 100, label: "100 мл", price: 15900 }
         ],
+        thumb:
+          "https://downloader.disk.yandex.ru/preview/43b427fcc947502a383d1782dbbb2e2a918fb2ef9d1b862d5cff7dce36c745bf/69455bcb/5Y5Sv003qEyvONpifXq4buFhKP6avrE8CGCuCdryeFhjM32N5k4EEQZnA6E3q4Pfe9qGMpDQ6Fxafrz8Ww9kVw%3D%3D?uid=0&filename=00b04b41c79e867e487169716630cc95-no-bg-preview%20%28carve.photos%29.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v3&size=2048x2048",
         images: [
           "https://i.pinimg.com/1200x/5a/00/f1/5a00f1894fea82bca73310361dd85803.jpg"
         ],
@@ -1038,6 +1191,8 @@
           { ml: 50, label: "50 мл", price: 24900 },
           { ml: 100, label: "100 мл", price: 33900 }
         ],
+        thumb:
+          "https://1.downloader.disk.yandex.ru/preview/f83321a67e8ce8adda05852aac26972c4623760847b82fda65e8e0f304616c90/inf/9nhPFM2-Z92mxlzmwXN988ZJmfwCsrdFCUnyaXKKwh2YFJt4pRxl52ljGoY8i3Zu_B5wOHvVWARmHemwHz23LQ%3D%3D?uid=253895014&filename=6328e5139269c31f8da57bd851e0ad64-no-bg-preview%20%28carve.photos%29.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=253895014&tknv=v3&size=2124x1564",
         images: [
           "https://i.pinimg.com/1200x/64/47/b4/6447b48b83183d20df7006d3b2fc1cf0.jpg"
         ],
@@ -1061,6 +1216,8 @@
           { ml: 50, label: "50 мл", price: 13900 },
           { ml: 100, label: "100 мл", price: 18900 }
         ],
+        thumb:
+          "https://1.downloader.disk.yandex.ru/preview/27e3e7a1fdadc4a36088a7b652f64b62cfffc4c67f4c38af3e2ea3fa99a536d1/inf/zU86gH3_mbIV5BhV6bfTKtRZ9l9MeqkfNv0wXRhJ9tgpJisewt5R1P1mi2RfLl6Mrp3AHF-egNCxrkXvHYoChg%3D%3D?uid=253895014&filename=f3fb66ddb801929ce1f6096a9fdc3bbd-no-bg-preview%20%28carve.photos%29.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=253895014&tknv=v3&size=2124x1564",
         images: [
           "https://i.pinimg.com/1200x/cc/7a/e2/cc7ae220514619cc890f7024c9c4a912.jpg"
         ],
@@ -1084,6 +1241,8 @@
           { ml: 50, label: "50 мл", price: 10400 },
           { ml: 90, label: "90 мл", price: 13900 }
         ],
+        thumb:
+          "https://4.downloader.disk.yandex.ru/preview/aaab775155ca66e071617fda88c9fb213283865a24fe107033d0c3f2cf5b4cba/inf/U8mw0Hty6srT1a3jYSIcRPGUERIcxHnpIopTzO_0WIVpzIFeTpmB2BNFR_vQsZHJ5vkswDXjg09Bedc2ic8lSA%3D%3D?uid=253895014&filename=27a12434a384c4bce441612a7d6bb0b9-no-bg-preview%20%28carve.photos%29.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=253895014&tknv=v3&size=2124x1564",
         images: [
           "https://i.pinimg.com/1200x/7b/ef/75/7bef75282c9bcc0ef9c2c3f0acafe60d.jpg"
         ],
@@ -1129,6 +1288,9 @@
           { ml: 10, label: "10 мл (распив)", price: 2300 },
           { ml: 60, label: "60 мл", price: 9900 },
           { ml: 100, label: "100 мл", price: 13900 }
+        ],
+        images: [
+          "https://i.pinimg.com/736x/66/c2/48/66c2486497706a7db7fb3cd9089bea11.jpg"
         ],
         rating: 4.9,
         shortCode: "SAUV"
@@ -1184,10 +1346,12 @@
     let currentFilter = "all";
     let searchQuery = "";
     let cart = [];
+    let favorites = [];
 
     const catalogEl = document.getElementById("catalog");
     const searchInput = document.getElementById("searchInput");
     const filters = document.querySelectorAll(".filter-chip");
+
     const cartToggle = document.getElementById("cartToggle");
     const cartPanel = document.getElementById("cartPanel");
     const cartClose = document.getElementById("cartClose");
@@ -1195,11 +1359,18 @@
     const cartCountEl = document.getElementById("cartCount");
     const cartTotalEl = document.getElementById("cartTotal");
     const checkoutButton = document.getElementById("checkoutButton");
-    const toastEl = document.getElementById("toast");
+
+    const favToggle = document.getElementById("favToggle");
+    const favPanel = document.getElementById("favPanel");
+    const favClose = document.getElementById("favClose");
+    const favItemsEl = document.getElementById("favItems");
+    const favCountEl = document.getElementById("favCount");
 
     const detailPanel = document.getElementById("detailPanel");
     const detailBody = document.getElementById("detailBody");
     const detailBack = document.getElementById("detailBack");
+
+    const toastEl = document.getElementById("toast");
 
     let currentDetailProduct = null;
     let currentSlideIndex = 0;
@@ -1250,10 +1421,14 @@
       });
     }
 
+    function isFavorite(id) {
+      return favorites.includes(id);
+    }
+
     function animateButton(btn) {
       if (!btn) return;
       btn.classList.remove("animate");
-      void btn.offsetWidth; // restart animation
+      void btn.offsetWidth;
       btn.classList.add("animate");
     }
 
@@ -1271,15 +1446,15 @@
         .map((p) => {
           const defaultVolume = p.volumes[0];
           const ratingPercent = ((p.rating || 5) / 5) * 100;
-          const hasImage = p.images && p.images.length;
+          const thumb = p.thumb || (p.images && p.images[0]);
+          const hasImage = !!thumb;
+          const fav = isFavorite(p.id);
 
           const imageHtml = hasImage
-            ? `<img src="${p.images[0]}" alt="${p.brand} ${p.name}" loading="lazy" />`
+            ? `<img src="${thumb}" alt="${p.brand} ${p.name}" loading="lazy" />`
             : `
             <div class="product-image-fallback">
-              <div class="product-image-fallback-inner">
-                ${p.shortCode}
-              </div>
+              ${p.shortCode}
             </div>
           `;
 
@@ -1315,16 +1490,8 @@
                   от ${defaultVolume.label.toLowerCase()}
                 </div>
               </div>
-              <button
-                class="add-to-cart"
-                data-id="${p.id}"
-                data-volume-ml="${defaultVolume.ml}"
-                data-volume-label="${defaultVolume.label}"
-                data-price="${defaultVolume.price}"
-                type="button"
-              >
-                <span class="plus">+</span>
-                <span>В корзину</span>
+              <button class="favorite-toggle ${fav ? "active" : ""}" data-id="${p.id}" type="button">
+                <span class="favorite-icon">${fav ? "♥" : "♡"}</span>
               </button>
             </div>
           </article>
@@ -1347,6 +1514,14 @@
 
     function closeCart() {
       cartPanel.classList.remove("open");
+    }
+
+    function openFavPanel() {
+      favPanel.classList.add("open");
+    }
+
+    function closeFavPanel() {
+      favPanel.classList.remove("open");
     }
 
     function getCartTotal() {
@@ -1439,6 +1614,46 @@
     function removeFromCart(cartItemId) {
       cart = cart.filter((i) => i.cartItemId !== cartItemId);
       updateCart();
+    }
+
+    function toggleFavorite(id) {
+      if (isFavorite(id)) {
+        favorites = favorites.filter((f) => f !== id);
+      } else {
+        favorites.push(id);
+      }
+      updateFavoritesUI();
+      renderCatalog(); // чтобы обновить сердечки на плитке
+    }
+
+    function renderFavoritesList() {
+      if (!favorites.length) {
+        favItemsEl.innerHTML =
+          '<div class="empty-cart">В избранном пока пусто. Нажмите на сердечко на аромате.</div>';
+        return;
+      }
+
+      favItemsEl.innerHTML = favorites
+        .map((id) => {
+          const p = perfumes.find((pp) => pp.id === id);
+          if (!p) return "";
+          const defaultVolume = p.volumes[0];
+          return `
+          <div class="fav-item" data-id="${p.id}">
+            <div class="fav-item-main">
+              <div class="fav-item-name">${p.brand} ${p.name}</div>
+              <div class="fav-item-meta">от ${formatPrice(defaultVolume.price)}</div>
+            </div>
+            <button class="fav-remove" type="button">×</button>
+          </div>
+        `;
+        })
+        .join("");
+    }
+
+    function updateFavoritesUI() {
+      favCountEl.textContent = favorites.length;
+      renderFavoritesList();
     }
 
     function sendOrder() {
@@ -1624,14 +1839,6 @@
       }
     }
 
-    function handleDetailVolumeClick(btn) {
-      const container = btn.closest(".detail-volume-chips");
-      if (!container) return;
-      const chips = container.querySelectorAll(".volume-chip");
-      chips.forEach((c) => c.classList.remove("active"));
-      btn.classList.add("active");
-    }
-
     /* LISTENERS */
 
     searchInput.addEventListener("input", (e) => {
@@ -1649,14 +1856,11 @@
     });
 
     catalogEl.addEventListener("click", (e) => {
-      const addBtn = e.target.closest(".add-to-cart");
-      if (addBtn) {
-        const id = addBtn.dataset.id;
-        const volumeMl = addBtn.dataset.volumeMl;
-        const volumeLabel = addBtn.dataset.volumeLabel;
-        const price = Number(addBtn.dataset.price);
-        addToCart(id, volumeMl, volumeLabel, price);
-        animateButton(addBtn);
+      const favBtn = e.target.closest(".favorite-toggle");
+      if (favBtn) {
+        const id = favBtn.dataset.id;
+        toggleFavorite(id);
+        e.stopPropagation();
         return;
       }
 
@@ -1673,6 +1877,25 @@
 
     cartClose.addEventListener("click", () => {
       closeCart();
+    });
+
+    favToggle.addEventListener("click", () => {
+      openFavPanel();
+    });
+
+    favClose.addEventListener("click", () => {
+      closeFavPanel();
+    });
+
+    favItemsEl.addEventListener("click", (e) => {
+      const itemEl = e.target.closest(".fav-item");
+      if (!itemEl) return;
+      const id = itemEl.dataset.id;
+      if (e.target.classList.contains("fav-remove")) {
+        toggleFavorite(id);
+      } else {
+        openDetail(id);
+      }
     });
 
     cartItemsEl.addEventListener("click", (e) => {
@@ -1706,7 +1929,10 @@
     detailPanel.addEventListener("click", (e) => {
       const volumeBtnDetail = e.target.closest(".detail-volume-chips .volume-chip");
       if (volumeBtnDetail) {
-        handleDetailVolumeClick(volumeBtnDetail);
+        const container = volumeBtnDetail.closest(".detail-volume-chips");
+        const chips = container.querySelectorAll(".volume-chip");
+        chips.forEach((c) => c.classList.remove("active"));
+        volumeBtnDetail.classList.add("active");
         return;
       }
 
@@ -1749,6 +1975,7 @@
 
     renderCatalog();
     updateCart();
+    updateFavoritesUI();
   </script>
 </body>
 </html>
